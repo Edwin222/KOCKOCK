@@ -8,16 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="kockock" parent="AppTheme">
-        <item name="android:textColorPrimary">@android:color/holo_green_light</item>
-        <item name="android:colorForeground">@color/common_google_signin_btn_text_dark</item>
-        <item name="android:textColorSecondary">@android:color/tertiary_text_dark</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="android:textColorSecondaryInverse">
-            @color/common_google_signin_btn_text_dark_disabled
-        </item>
-    </style>
-
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

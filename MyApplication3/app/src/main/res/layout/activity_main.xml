@@ -6,22 +6,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    android:weightSum="1">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:soundEffectsEnabled="false"
-        app:layout_anchor="@+id/nestedScrollView2"
-        app:layout_anchorGravity="bottom|right"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="180dp"
+        android:layout_weight="0.58" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="293dp">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:soundEffectsEnabled="false"
+            app:layout_anchor="@+id/nestedScrollView2"
+            app:layout_anchorGravity="bottom|right"
+            app:srcCompat="@android:drawable/ic_menu_add" />
+    </GridLayout>
+
 </LinearLayout>
 
