@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">kockockock</string>
+    <string-array name="citynames">
+        <item>광역시/도</item>>
+        <item>서울</item>>
+        <item>대구</item>>
+    </string-array>
+    <string-array name="smallcitynames">
+        <item>시/군/구</item>>
+        <item>시/도를 선택하십시오</item>>
+    </string-array>
+
     <string name="action_settings">편집</string>
 </resources>

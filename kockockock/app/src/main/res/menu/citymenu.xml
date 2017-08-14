@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <menu tools:context=".MainActivity" xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/citymenu" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="로그인" android:id="@+id/menu_login" android:orderInCategory="100"/>
+
+    <item android:title="로그아웃" android:id="@+id/menu_logout" android:orderInCategory="100"/>
+
+    <item android:title="다음" android:id="@+id/menu_a" android:orderInCategory="100"/>
+
+</menu>

@@ -5,25 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.youngju.kockockock.FirstPage">
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/actionbar"
-        android:layout_alignTop="@id/myTravelList"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentTop="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <ImageButton
-            android:id="@+id/menuButton"
-            android:layout_width="62dp"
-            android:layout_height="55dp"
-            android:layout_gravity="right"
-            android:background="000000"
-            app:srcCompat="?android:attr/floatingToolbarOpenDrawable" />
-
-    </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_first_page" />
+    <include
+        layout="@layout/content_first_page"
+        android:id="@+id/include"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addButton"
@@ -32,5 +17,37 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_add" />
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/delButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#00ff0000"
+                android:text="DEL" />
+
+            <Button
+                android:id="@+id/editButton"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="62dp"
+                android:layout_height="55dp"
+                android:layout_gravity="right"
+                android:background="#00ff0000"
+                android:text="EDIT" />
+        </GridLayout>
+
+    </android.support.design.widget.AppBarLayout>
 
 </android.support.design.widget.CoordinatorLayout>

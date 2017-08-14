@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.youngju.kockockock.MapActivity">
+    <item
+        android:id="@+id/menuitem1"
+        android:title="save" >
+    </item>
+    <item
+        android:id="@+id/menuitem2"
+        android:title="detailed list" >
+    </item>
+    <item
+        android:id="@+id/menuitem3"
+        android:title="weather" >
+    </item>
+
+</menu>
