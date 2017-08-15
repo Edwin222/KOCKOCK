@@ -1,6 +1,8 @@
 package com.example.youngju.kockockock;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
@@ -9,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -90,9 +93,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.menuitem1:
-                        Toast.makeText(getApplicationContext(), "save", Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(MapActivity.this,FirstPage.class);
-                        startActivity(intent);
+                        AlertDialog.Builder alert = new AlertDialog.Builder(MapActivity.this);
+
+                        alert.setTitle("Save Path");
+                        alert.setMessage("New Path Name:");
+
+                        final EditText name = new EditText(MapActivity.this);
+                        alert.setView(name);
+                        alert.setNegativeButton("cancle",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        });
+                        alert.setPositiveButton("save", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String pathname = name.getText().toString();
+
+                                Toast.makeText(getApplicationContext(), "save", Toast.LENGTH_SHORT).show();
+                                Intent intent=new Intent(MapActivity.this,FirstPage.class);
+
+                                intent.putExtra("pathName",pathname); ////////TO-DO : change code to save name in file
+
+                                startActivity(intent);
+                            }
+                        });
+                        alert.show();
                         break;
                     case R.id.menuitem2: //go to detailed list page
                         break;
