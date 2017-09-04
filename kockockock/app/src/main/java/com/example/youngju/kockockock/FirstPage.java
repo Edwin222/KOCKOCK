@@ -23,6 +23,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.youngju.kockockock.System.TourAPIData;
+
 import java.util.ArrayList;
 
 

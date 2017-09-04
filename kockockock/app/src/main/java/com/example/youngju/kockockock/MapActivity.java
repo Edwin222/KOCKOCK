@@ -100,7 +100,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                         final EditText name = new EditText(MapActivity.this);
                         alert.setView(name);
-                        alert.setNegativeButton("cancle",new DialogInterface.OnClickListener() {
+                        alert.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                             }
                         });
