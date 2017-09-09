@@ -29,13 +29,7 @@ public class TourAPIData {
     }
 
     public City[] getMetro(){
-        new Thread() {
-            @Override
-            public void run(){
-                doc = getXMLData("areaCode", 1);
-            }
-        };
-
+        doc = getXMLData("areaCode", 1);
         City[] result = makeCityResult( doc.select("body").get(0).select("item") );
 
         return result;
@@ -53,12 +47,7 @@ public class TourAPIData {
     }
 
     public City[] getCity(final int areaCode){
-        new Thread() {
-            @Override
-            public void run(){
-                doc = getXMLData("areaCode", 1, "&areaCode="+String.valueOf(areaCode));
-            }
-        };
+        doc = getXMLData("areaCode", 1, "&areaCode="+String.valueOf(areaCode));
 
         City[] result = makeCityResult( doc.select("body").get(0).select("item") );
 

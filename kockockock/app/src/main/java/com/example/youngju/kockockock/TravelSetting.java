@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.youngju.kockockock.System.APIGetter;
 import com.example.youngju.kockockock.System.TourAPIData;
 
 /**
@@ -14,6 +15,9 @@ import com.example.youngju.kockockock.System.TourAPIData;
  */
 
 public class TravelSetting extends AppCompatActivity {
+
+    String[] mainCityArr;
+    String[] subCityArr;
 
     Spinner mainCitySpinner;
     Spinner subCitySpinner;
@@ -24,7 +28,18 @@ public class TravelSetting extends AppCompatActivity {
         setContentView(R.layout.activity_travel_setting);
 
         mainCitySpinner = (Spinner) findViewById(R.id.MainCitySpinner);
-        ArrayAdapter<CharSequence> mainAdapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item,  TourAPIData.getInstance().getMetroName());
+
+        APIGetter apiGetter = null;
+        try {
+            apiGetter = new APIGetter(APIGetter.TOURAPI_METRO_N);
+            apiGetter.start();
+            apiGetter.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        mainCityArr = (String[]) apiGetter.getResult();
+        ArrayAdapter<CharSequence> mainAdapter = new ArrayAdapter<CharSequence>(getApplicationContext(), android.R.layout.simple_spinner_item, mainCityArr);
         mainAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mainCitySpinner.setAdapter(mainAdapter);
 
@@ -32,20 +47,39 @@ public class TravelSetting extends AppCompatActivity {
 
         subCitySpinner = (Spinner) findViewById(R.id.SubCitySpinner);
     }
-}
 
-class mainSpinnerListener implements AdapterView.OnItemSelectedListener {
-    private int position;
+    class mainSpinnerListener implements AdapterView.OnItemSelectedListener {
+        private int position;
 
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+            this.position = pos;
 
+            APIGetter apiGetter = null;
+            try {
+                APIGetter codeGetter = new APIGetter(APIGetter.TOURAPI_METRO_CODE);
+                codeGetter.addParam(position);
+                codeGetter.start();
+                codeGetter.join();
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                int code = (int) codeGetter.getResult();
 
-    }
+                apiGetter = new APIGetter(APIGetter.TOURAPI_CITY_N);
+                apiGetter.addParam(code);
+                apiGetter.start();
+                apiGetter.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+            subCityArr = (String[]) apiGetter.getResult();
+            ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getApplicationContext(), android.R.layout.simple_spinner_item, subCityArr);
+            subCitySpinner.setAdapter(adapter);
+        }
 
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
+        }
     }
 }

@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".TravelDay" />
         <activity android:name=".MapActivity"></activity>
+        <activity android:name=".TravelSetting"></activity>
+
     </application>
 
 </manifest>
