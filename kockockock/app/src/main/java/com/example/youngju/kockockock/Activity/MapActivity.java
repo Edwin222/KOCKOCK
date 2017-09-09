@@ -1,4 +1,4 @@
-package com.example.youngju.kockockock;
+package com.example.youngju.kockockock.Activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -6,19 +6,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.youngju.kockockock.R;
+import com.example.youngju.kockockock.System.Path;
+import com.example.youngju.kockockock.System.PathManager;
+import com.example.youngju.kockockock.System.TravelInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -29,22 +29,24 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback{
 
+    TravelInfo travelInfo;
     boolean created=false;
     View include1;
     View include2;
     Button creat;
+    PathManager pathManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        Intent back_intent=getIntent();
-        int year=back_intent.getExtras().getInt("year");
-        int month=back_intent.getExtras().getInt("month");
-        int day=back_intent.getExtras().getInt("day");
+        pathManager=pathManager.getInstance();
 
-        Log.d("Intent","y:"+year);
+        Intent back_intent=getIntent();
+        travelInfo=(TravelInfo) back_intent.getSerializableExtra("Travel Info");
+        if(travelInfo==null) Log.d("Kock","Intent: travel info is null");
+        else Log.d("Kock","travel info: city"+travelInfo.getStartTime());
 
         FragmentManager fragmentManager = getFragmentManager();
         MapFragment mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.map1);
@@ -84,7 +86,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                     created=!created;
                 } else {
-                    Intent intent=new Intent(MapActivity.this,TravelDay.class);
+                    Intent intent=new Intent(MapActivity.this,TravelSetting.class);
                     startActivity(intent);
                 }
             }
@@ -114,13 +116,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         });
                         alert.setPositiveButton("save", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                String pathname = name.getText().toString();
-
+                                Path newpath=new Path(name.getText().toString());
+                                Log.d("Kock","travel:start Time:"+travelInfo.getStartTime());
+                                newpath.setTravlelInfo(travelInfo);
+                                pathManager.add(newpath);
+                                pathManager.saveData();
                                 Toast.makeText(getApplicationContext(), "save", Toast.LENGTH_SHORT).show();
                                 Intent intent=new Intent(MapActivity.this,FirstPage.class);
-
-                                intent.putExtra("pathName",pathname); ////////TO-DO : change code to save name in file
-
                                 startActivity(intent);
                             }
                         });

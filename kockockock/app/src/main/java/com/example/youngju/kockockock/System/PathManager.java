@@ -1,5 +1,9 @@
 package com.example.youngju.kockockock.System;
 
+import android.os.Environment;
+import android.util.Log;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -33,10 +37,23 @@ public class PathManager extends ArrayList<Path> implements Serializable {
         return result;
     }
 
-    public void saveData(){
+    public synchronized void saveData(){
 
         try {
-            FileOutputStream fout = new FileOutputStream("data.bin");
+
+            File dir = new File("/sdcard/KOCKOCK");
+            if(!dir.exists()){
+                Log.d("SIBAL", "DIRSIBAL");
+                Log.d("SIBAL", String.valueOf(dir.mkdirs()));
+            }
+            Log.d("SIBAL", String.valueOf(dir.exists()) + dir.getAbsolutePath());
+
+            File file = new File("/sdcard/KOCKOCK/data.bin");
+            if(!file.exists()){
+                file.createNewFile();
+            }
+
+            FileOutputStream fout = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(fout);
 
             out.writeObject(this);
@@ -44,6 +61,7 @@ public class PathManager extends ArrayList<Path> implements Serializable {
             fout.close();
             out.close();
         } catch(Exception e){
+            Log.d("Kock", "savedate:Exception");
             e.printStackTrace();
         }
 
@@ -52,13 +70,15 @@ public class PathManager extends ArrayList<Path> implements Serializable {
     public void loadData(){
 
         try {
-            FileInputStream fin = new FileInputStream("data.bin");
+            FileInputStream fin = new FileInputStream("/sdcard/KOCKOCK/data.bin");
             ObjectInputStream in = new ObjectInputStream(fin);
 
             PathManager pathManager = (PathManager) in.readObject();
+            Log.d("SIBAL", Environment.getRootDirectory().getAbsolutePath());
 
-            for(int i=0;i<this.size();i++){
-                add(pathManager.get(0));
+            for(int i=0;i<pathManager.size();i++){
+                Log.d("SIBAL", Environment.getRootDirectory().getAbsolutePath());
+                add(pathManager.get(i));
             }
 
             fin.close();

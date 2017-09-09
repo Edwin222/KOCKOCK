@@ -6,13 +6,13 @@ import java.util.Date;
 
 public class TravelInfo implements Cloneable, Serializable {
     private Date startTime;
-    private Date endTime;
     private String city;
     private String local;
 
-    public TravelInfo(Date st, Date et, String c, String l){
+    public TravelInfo(){}
+
+    public TravelInfo(Date st,  String c, String l){
         setStartTime(st);
-        setEndTime(et);
         setCity(c);
         setLocal(l);
     }
@@ -22,7 +22,6 @@ public class TravelInfo implements Cloneable, Serializable {
 
         TravelInfo data = (TravelInfo)super.clone();
         data.setStartTime((Date) startTime.clone());
-        data.setEndTime((Date) endTime.clone());
         data.setCity(city.toString());
         data.setLocal(local.toString());
         return data;
@@ -34,10 +33,6 @@ public class TravelInfo implements Cloneable, Serializable {
         return startTime;
     }
 
-    public Date getEndTime(){
-        return endTime;
-    }
-
     public String getCity(){
         return city;
     }
@@ -47,19 +42,15 @@ public class TravelInfo implements Cloneable, Serializable {
     }
 
     //Mutator
-    private void setStartTime(Date st){
+    public void setStartTime(Date st){
         startTime = st;
     }
 
-    private void setEndTime(Date et){
-        endTime = et;
-    }
-
-    private void setCity(String c){
+    public void setCity(String c){
         city = c;
     }
 
-    private void setLocal(String l){
+    public void setLocal(String l){
         local = l;
     }
 

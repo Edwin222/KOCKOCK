@@ -1,29 +1,20 @@
-package com.example.youngju.kockockock;
+package com.example.youngju.kockockock.Activity;
 
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.example.youngju.kockockock.System.TourAPIData;
+import com.example.youngju.kockockock.R;
+import com.example.youngju.kockockock.System.PathManager;
 
 import java.util.ArrayList;
 
@@ -32,6 +23,7 @@ public class FirstPage extends AppCompatActivity {
     boolean editmode = false;
     ListView myTravelList;
     ArrayList<String> travelNameList;
+    PathManager pathManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +44,11 @@ public class FirstPage extends AppCompatActivity {
             }
         });
 
-        travelNameList = new ArrayList<String>();
+        pathManager=PathManager.getInstance();
         myTravelList = (ListView) findViewById(R.id.myTravelList);
+        travelNameList=pathManager.getPathList();
 
-        /// TO-DO : change code to load path data////////////////////////////////////////////////
-
-        travelNameList.add("travel 1");
-        travelNameList.add("travel 2");
-
+/*
         try {
             Intent intent = getIntent();
             String pathname = (String) intent.getStringExtra("pathName");
@@ -67,10 +56,10 @@ public class FirstPage extends AppCompatActivity {
                 travelNameList.add(pathname);
         } catch (Exception e) {
             Log.d("test","intent exception");
-        }
+        }*/
         //////////////////////////////////////////////////////////////////////////////////////////
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, travelNameList);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, pathManager.getPathList());
         myTravelList.setAdapter(adapter);
 
         myTravelList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -105,7 +94,10 @@ public class FirstPage extends AppCompatActivity {
                 int count = myTravelList.getAdapter().getCount();
 
                 for (int i = count - 1; i >= 0; i--)
-                    if (checkedItems.get(i)) travelNameList.remove(i);
+                    if (checkedItems.get(i)) {
+                        travelNameList.remove(i);
+                        pathManager.remove(i);
+                    }
 
                 myTravelList.clearChoices();
                 ArrayAdapter ad = (ArrayAdapter) myTravelList.getAdapter();
@@ -122,6 +114,7 @@ public class FirstPage extends AppCompatActivity {
         myTravelList.setAdapter(ad);
         Button del = (Button) findViewById(R.id.delButton);
         del.setVisibility(View.GONE);
+        pathManager.saveData();
         editmode = !editmode;
     }
 }
