@@ -1,14 +1,17 @@
 package com.example.youngju.kockockock;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -17,6 +20,7 @@ import com.example.youngju.kockockock.System.City;
 import com.example.youngju.kockockock.System.TourAPIData;
 
 import java.util.ArrayList;
+import java.text.DateFormat;
 
 public class TravelDay extends AppCompatActivity {
     Spinner citySpinner;
@@ -28,26 +32,34 @@ public class TravelDay extends AppCompatActivity {
     TravelDay self;
     int selectedPos;
     Button city;
+    Intent intent;
+    boolean daycheck=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_travel_day);
         self = this;
+
+        intent=new Intent(TravelDay.this,MapActivity.class);
+        intent.putExtra("year",0);
+        intent.putExtra("month",0);
+        intent.putExtra("day",0);
+
         ImageButton prev=(ImageButton)findViewById(R.id.previous);
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(TravelDay.this,FirstPage.class);
-                startActivity(intent);
+                Intent back_intent=new Intent(TravelDay.this,FirstPage.class);
+                startActivity(back_intent);
             }
         });
         Button fin=(Button)findViewById(R.id.finish);
         fin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(TravelDay.this,MapActivity.class);
-                startActivity(intent);
+                if(daycheck) startActivity(intent);
+                else Toast.makeText(getApplicationContext(),"select day for traveling",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -105,6 +117,21 @@ public class TravelDay extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter2= ArrayAdapter.createFromResource(getApplicationContext(),R.array.smallcitynames,android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         smallCitySpinner.setAdapter(adapter2);
+
+
+        CalendarView cal=(CalendarView)findViewById(R.id.calendar);
+        long time=cal.getDate();
+
+        cal.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
+                Log.d("Cal","y:"+year+" m:"+month+" d:"+day);
+                daycheck=true;
+                intent.putExtra("year",year);
+                intent.putExtra("month",month+1);
+                intent.putExtra("day",day);
+            }
+        });
 
     }
 
