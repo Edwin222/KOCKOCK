@@ -72,6 +72,11 @@ public class TourAPIData {
 
     }
 
+    /*
+    public int getCityCode(int code, int position){
+        City[] cityList =  getCity(code);
+    }
+*/
     private City[] makeCityResult(Elements cityList){
         City[] result = new City[cityList.size()];
 

@@ -21,11 +21,20 @@ public class Region implements Serializable {
     private boolean rec;
     private int choice;
 
-    public Region(int type, boolean r, int cho){
+    private String pos_X;
+    private String pos_Y;
+
+    public Region(int type, boolean r, int cho, String x, String y){
         this.type = type;
         this.rec = r;
         this.choice = cho;
+        pos_X = x;
+        pos_Y = y;
     }
+
+    public String getX(){ return pos_X; }
+
+    public String getY() { return pos_Y; }
 
     public int getType(){
         return type;

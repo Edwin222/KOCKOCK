@@ -15,9 +15,7 @@ import android.widget.Toast;
 
 import com.example.youngju.kockockock.R;
 import com.example.youngju.kockockock.System.APIGetter;
-import com.example.youngju.kockockock.System.TourAPIData;
 import com.example.youngju.kockockock.System.TravelInfo;
-
 import java.util.Date;
 
 /**
@@ -45,7 +43,6 @@ public class TravelSetting extends AppCompatActivity {
         setContentView(R.layout.activity_travel_setting);
 
         travelInfo = new TravelInfo();
-
 
         mainListener = new mainSpinnerListener();
         subListener = new subSpinnerListener();
