@@ -17,7 +17,9 @@ public class Path implements Serializable {
         return regionList;
     }
 
-    public void setTravlelInfo(TravelInfo t){
+    public TravelInfo getTravelInfo() { return travelinfo; }
+
+    public void setTravelInfo(TravelInfo t){
 
         try {
             travelinfo = t.clone();
@@ -34,5 +36,10 @@ public class Path implements Serializable {
 
     public void setName(String n){
         pathName = n;
+    }
+
+    @Override
+    public String toString(){
+        return "Path:"+pathName+"  city:"+travelinfo.getCity()+"  local:"+travelinfo.getLocal();
     }
 }

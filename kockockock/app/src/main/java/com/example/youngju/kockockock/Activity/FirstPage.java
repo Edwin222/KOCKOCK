@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,6 +29,8 @@ public class FirstPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_page);
 
+        pathManager=PathManager.getInstance();
+
         Button del = (Button) findViewById(R.id.delButton);
         del.setVisibility(View.GONE);
 
@@ -44,7 +45,6 @@ public class FirstPage extends AppCompatActivity {
             }
         });
 
-        pathManager=PathManager.getInstance();
         myTravelList = (ListView) findViewById(R.id.myTravelList);
         travelNameList=pathManager.getPathList();
 
@@ -65,6 +65,9 @@ public class FirstPage extends AppCompatActivity {
         myTravelList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent eachIntent=new Intent(FirstPage.this,CompletePage.class);
+                eachIntent.putExtra("Path", pathManager.get(position));
+                startActivity(eachIntent);
             }
         });
         final Button edit = (Button) findViewById(R.id.editButton);
