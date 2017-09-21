@@ -14,7 +14,7 @@ public class RegionContainer extends ArrayList<Region> implements Serializable {
         presentPath.add(new Integer(0));
 
         //TSP Algorithm Application
-        while()
+        //while()
     }
 
     private int getWeight(int start, int end){
