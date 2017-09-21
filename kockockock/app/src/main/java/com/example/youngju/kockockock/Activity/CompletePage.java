@@ -14,24 +14,33 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.youngju.kockockock.CustomMarker.CustomMarker;
 import com.example.youngju.kockockock.R;
 import com.example.youngju.kockockock.System.Path;
 import com.example.youngju.kockockock.System.PathManager;
+import com.example.youngju.kockockock.System.Region;
+import com.example.youngju.kockockock.System.RegionContainer;
 import com.example.youngju.kockockock.System.TravelInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Marker;
 
-public class CompletePage extends AppCompatActivity implements OnMapReadyCallback {
+import java.util.ArrayList;
+
+public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarkerClickListener,OnMapReadyCallback {
 
     PathManager pathManager;
     Intent intent;
     Path path;
     TravelInfo travelInfo;
     Button menu;
+    GoogleMap mMap;
+    RegionContainer regionContainer;
+    ArrayList<Marker> markerArrayList;
+    CustomMarker customMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +74,28 @@ public class CompletePage extends AppCompatActivity implements OnMapReadyCallbac
 
         SupportMapFragment mapFragment=(SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map2);
         mapFragment.getMapAsync(this);
+
+        Button filter21 = (Button) findViewById(R.id.filter21);
+        filter21.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearMarker();
+                setRegionArr(1);
+                setMaker();
+                setCamera();
+            }
+        });
+
+        Button filter22 = (Button) findViewById(R.id.filter22);
+        filter22.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearMarker();
+                setRegionArr(2);
+                setMaker();
+                setCamera();
+            }
+        });
 
     }
 
@@ -121,21 +152,61 @@ public class CompletePage extends AppCompatActivity implements OnMapReadyCallbac
         p.show();
     }
 
+    public void setRegionArr(int type){
+        regionContainer=new RegionContainer();
+        regionContainer.add(new Region(0,false,0,"37.02"+ type,"126.02"+type));
+        regionContainer.add(new Region(0,false,0,"37.00"+type,"126.00"+type));
+        regionContainer.add(new Region(0,false,0,"37.01"+type,"126.01"+type));
+        regionContainer.add(new Region(0,false,0,"37.03"+type,"126.03"+type));
+        regionContainer.add(new Region(0,false,0,"37.04"+type,"126.04"+type));
+    }
+    public void setCamera(){
+        double x= Double.parseDouble(regionContainer.get(0).getX()) + 1.0;
+        double y= Double.parseDouble(regionContainer.get(0).getY()) + 1.0;
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(x,y)));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+    }
+    public void clearMarker(){
+        for(Marker m:markerArrayList){
+            m.remove();
+        }
+    }
+
+
     @Override
-    public void onMapReady(final GoogleMap map) {
+    public void onMapReady(GoogleMap map) {
+        mMap = map;
+        markerArrayList=new ArrayList<Marker>();
+        customMarker=new CustomMarker(this,mMap);
+        setRegionArr(1);
+        setMaker();
+        setCamera();
+        mMap.setOnMarkerClickListener(this);
+    }
 
-        //Region newregion = new Region(Region.ATTRACTION, true, Region.SELECTED, "0", "0");
+    public void setMaker(){
+        int cnt=0;
+        for(Region region:regionContainer) {
+            Marker marker=customMarker.addMarker(region);
+            marker.setTag(region);
+            markerArrayList.add(marker);
+        }
+    }
 
-        LatLng SEOUL = new LatLng(37.56, 126.97);
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Region region=(Region) marker.getTag();
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
-        markerOptions.title("서울");
-        markerOptions.snippet("한국의 수도");
-        map.addMarker(markerOptions);
+        if(region.getChosenStatus()==0) region.setChoice(1);
+        else region.setChoice(0);
 
-        map.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
-        map.animateCamera(CameraUpdateFactory.zoomTo(10));
+        Marker marker1=customMarker.addMarker(region);
+        marker1.setTag(region);
+        markerArrayList.add(marker1);
+        markerArrayList.remove(marker);
+        marker.remove();
+
+        return false;
     }
 
 }

@@ -1,0 +1,83 @@
+package com.example.youngju.kockockock.CustomMarker;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.youngju.kockockock.R;
+import com.example.youngju.kockockock.System.Region;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+/**
+ * Created by YoungJu on 2017-09-22.
+ */
+
+public class CustomMarker{
+    GoogleMap mMap;
+    View marker_root_view;
+    TextView tv_marker;
+    Context context;
+
+    public CustomMarker(Context context,GoogleMap mMap){
+        this.context=context;
+        this.mMap=mMap;
+        setCustomMarkerView();
+    }
+
+    private Bitmap createDrawableFromView(Context context, View view) {
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+        view.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+
+        return bitmap;
+    }
+
+    private void setCustomMarkerView() {
+        marker_root_view = LayoutInflater.from(context).inflate(R.layout.marker_layout, null);
+        tv_marker = (TextView) marker_root_view.findViewById(R.id.tv_marker);
+    }
+
+    public Marker addMarker(Region region) {
+        LatLng newRegion = new LatLng(Double.parseDouble(region.getX()) + 1.0, Double.parseDouble(region.getY()) + 1.0);
+        String formatted = "title";
+
+        tv_marker.setText(formatted);
+
+        if (region.getChosenStatus()==1) {
+            tv_marker.setBackgroundResource(R.drawable.colorbackground);
+            tv_marker.setTextColor(Color.BLACK);
+        } else {
+            tv_marker.setBackgroundResource(R.drawable.uncolorbackground);
+            tv_marker.setTextColor(Color.BLACK);
+        }
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.title("title");
+        markerOptions.position(newRegion);
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(context, marker_root_view)));
+
+
+        return mMap.addMarker(markerOptions);
+
+    }
+
+}
