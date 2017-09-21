@@ -34,6 +34,8 @@ public class Path implements Serializable {
         return pathName;
     }
 
+    public void setList(RegionContainer regionList) { this.regionList=regionList; }
+
     public void setName(String n){
         pathName = n;
     }

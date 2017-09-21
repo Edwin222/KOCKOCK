@@ -14,21 +14,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.youngju.kockockock.CustomMarker.CustomMarker;
+import com.example.youngju.kockockock.CustomMarker.MapControl;
 import com.example.youngju.kockockock.R;
 import com.example.youngju.kockockock.System.Path;
 import com.example.youngju.kockockock.System.PathManager;
 import com.example.youngju.kockockock.System.Region;
-import com.example.youngju.kockockock.System.RegionContainer;
 import com.example.youngju.kockockock.System.TravelInfo;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-
-import java.util.ArrayList;
 
 public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarkerClickListener,OnMapReadyCallback {
 
@@ -40,9 +35,7 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
     Button menu;
 
     GoogleMap mMap;
-    RegionContainer regionContainer;
-    ArrayList<Marker> markerArrayList;
-    CustomMarker customMarker;
+    MapControl mapControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +51,7 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("test","prev Button Listener");
                 Intent in=new Intent(CompletePage.this,MapActivity.class);
                 in.putExtra("Path",path);
                 startActivity(in);
@@ -68,19 +62,22 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("test","menu Button Listener");
                 popMenu();
             }
         });
 
         SupportMapFragment mapFragment=(SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map2);
         mapFragment.getMapAsync(this);
+        Log.d("test","mapFragment.getMapAsync");
 
         Button filter21 = (Button) findViewById(R.id.filter21);
         filter21.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clearMarker();
-                setMaker(1);
+                Log.d("test","Button1 Listener");
+                mapControl.clearMarker();
+                mapControl.setMaker(Region.T_FACILITY);
             }
         });
 
@@ -88,14 +85,16 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
         filter22.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clearMarker();
-                setMaker(2);
+                Log.d("test","Button2 Listener");
+                mapControl.clearMarker();
+                mapControl.setMaker(Region.T_STATION);
             }
         });
 
     }
 
     public void popMenu(){
+        Log.d("test","popMenu");
         PopupMenu p = new PopupMenu(CompletePage.this,menu);
         getMenuInflater().inflate(R.menu.menu, p.getMenu());
         p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -148,59 +147,19 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
         p.show();
     }
 
-    public void setMaker(int type){
-        int cnt=0;
-        String name="name";
-
-        regionContainer=new RegionContainer();
-        regionContainer.add(new Region("",name,0,"37.02" ,"126.02" ));
-        regionContainer.add(new Region("",name,0,"37.01" ,"126.01" ));
-        regionContainer.add(new Region("",name,0,"37.03" ,"126.03" ));
-        regionContainer.add(new Region("",name,0,"37.04" ,"126.04" ));
-        regionContainer.add(new Region("",name,0,"37.05" ,"126.05" ));
-
-        for(Region region:regionContainer) {
-            Marker marker=customMarker.addMarker(region );
-            marker.setTag(region);
-            markerArrayList.add(marker);
-        }
-
-        double x= Double.parseDouble(regionContainer.get(0).getLatitude()) + 1.0  ;
-        double y= Double.parseDouble(regionContainer.get(0).getLongitude()) + 1.0  ;
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(x,y)));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
-    }
-
-    public void clearMarker(){
-        for(Marker m:markerArrayList){
-            m.remove();
-        }
-    }
-
-
     @Override
     public void onMapReady(GoogleMap map) {
+        Log.d("test","onMapReady");
         mMap = map;
-        markerArrayList=new ArrayList<Marker>();
-        customMarker=new CustomMarker(this,mMap);
-        setMaker(1);
-        mMap.setOnMarkerClickListener(this);
+        mapControl=new MapControl(this, mMap, travelInfo, Region.T_FACILITY);
+        mapControl.setSelectedRegion(path.getList());
     }
+
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Region region=(Region) marker.getTag();
-
-        if(region.getChosenStatus()==0) region.setChoice(1);
-        else region.setChoice(0);
-
-        Marker marker1=customMarker.addMarker(region);
-        marker1.setTag(region);
-        markerArrayList.add(marker1);
-        markerArrayList.remove(marker);
-        marker.remove();
-
-        return false;
+        Log.d("test","onMarkerClick");
+        return mapControl.onMarkerClick(marker);
     }
 
 }

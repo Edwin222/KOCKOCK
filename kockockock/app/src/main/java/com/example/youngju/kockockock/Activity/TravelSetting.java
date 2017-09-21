@@ -3,6 +3,7 @@ package com.example.youngju.kockockock.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -91,6 +92,9 @@ public class TravelSetting extends AppCompatActivity {
                 CityList cityList=new CityList();
                 travelInfo.setMetro( mainCityArr.get(mainListener.getPosition()));
                 travelInfo.setCity(subCityArr.get(subListener.getPosition()));
+
+                Log.d("test","TravelSettingActivity\nmetro: "+ travelInfo.getMetro().getCode()+" \ncity: "+travelInfo.getCity().getCode());
+
                 Path path=new Path("");
                 path.setTravelInfo(travelInfo);
                 intent.putExtra("Path", path);

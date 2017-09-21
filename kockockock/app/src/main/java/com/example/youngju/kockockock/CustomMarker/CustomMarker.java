@@ -32,6 +32,7 @@ public class CustomMarker {
     public CustomMarker(Context context, GoogleMap mMap) {
         this.context = context;
         this.mMap = mMap;
+
         setCustomMarkerView();
     }
 
@@ -58,17 +59,17 @@ public class CustomMarker {
 
     public Marker addMarker(Region region ) {
 
-        double x = Double.parseDouble(region.getLatitude()) + 1.0  ;
-        double y = Double.parseDouble(region.getLongitude()) + 1.0  ;
+        double x = Double.parseDouble(region.getLatitude()) + 0  ;
+        double y = Double.parseDouble(region.getLongitude()) + 0  ;
         LatLng newRegion = new LatLng(x, y);
         String formatted = region.getName();
 
         tv_marker.setText(formatted);
 
-        if (region.getChosenStatus() == 1) {
+        if (region.getChosenStatus() == Region.C_SELECTED) {
             tv_marker.setBackgroundResource(R.drawable.colorbackground);
             tv_marker.setTextColor(Color.BLACK);
-        } else {
+        } else if (region.getChosenStatus() == Region.C_NOTSELECTED){
             tv_marker.setBackgroundResource(R.drawable.uncolorbackground);
             tv_marker.setTextColor(Color.BLACK);
         }

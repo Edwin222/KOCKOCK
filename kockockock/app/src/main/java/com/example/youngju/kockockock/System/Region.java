@@ -4,17 +4,17 @@ import java.io.Serializable;
 
 public class Region implements Serializable {
     //Type Constant List
-    public final static int STATION = 200; // 역
-    public final static int FESTIVAL = 15; // 행사
-    public final static int ATTRACTION = 12; // 관광지
-    public final static int RESTAURANT = 39; // 식당
-    public final static int FACILITY = 201; // 편의시설
+    public final static int T_STATION = 200; // 역
+    public final static int T_FESTIVAL = 15; // 행사
+    public final static int T_ATTRACTION = 12; // 관광지
+    public final static int T_RESTAURANT = 39; // 식당
+    public final static int T_FACILITY = 201; // 편의시설
 
     //Choice Constant List
-    public final static int NOTSELECTED = 2000; //선택안됨
-    public final static int SELECTED = 2001; //선택됨
-    public final static int BEGINPOINT = 2002; //시작점
-    public final static int ENDPOINT = 2003; //끝점
+    public final static int C_NOTSELECTED = 2000; //선택안됨
+    public final static int C_SELECTED = 2001; //선택됨
+    public final static int C_BEGINPOINT = 2002; //시작점
+    public final static int C_ENDPOINT = 2003; //끝점
 
     //Member Variable List
     private int type;
@@ -33,7 +33,7 @@ public class Region implements Serializable {
         this.type = type;
         this.content = null;
         this.rec = false;
-        this.choice = Region.NOTSELECTED;
+        this.choice = Region.C_NOTSELECTED;
         this.latitude = latitude;
         this.longitude = longitude;
     }
