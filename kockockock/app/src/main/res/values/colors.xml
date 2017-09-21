@@ -9,5 +9,7 @@
     <color name="ButtonColor4">#ffdf27</color>
     <color name="ButtonColor5">#ffdf27</color>
     <color name="ButtonColor6">#ffdf27</color>
+    <color name="Check">#ff2727</color>
+    <color name="notCheck">#27a9ff</color>
     <color name="primary_text_default_material_light">#aaf2f2f2</color>
 </resources>

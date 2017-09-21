@@ -47,4 +47,6 @@ public class Region implements Serializable {
     public int getChosenStatus(){
         return choice;
     }
+
+    public void setChoice(int choice){ this.choice=choice; }
 }

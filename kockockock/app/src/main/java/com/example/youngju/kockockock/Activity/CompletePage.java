@@ -2,9 +2,9 @@ package com.example.youngju.kockockock.Activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.MenuItem;
@@ -17,11 +17,11 @@ import android.widget.Toast;
 import com.example.youngju.kockockock.R;
 import com.example.youngju.kockockock.System.Path;
 import com.example.youngju.kockockock.System.PathManager;
-import com.example.youngju.kockockock.System.Region;
 import com.example.youngju.kockockock.System.TravelInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -62,6 +62,9 @@ public class CompletePage extends AppCompatActivity implements OnMapReadyCallbac
                 popMenu();
             }
         });
+
+        SupportMapFragment mapFragment=(SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map2);
+        mapFragment.getMapAsync(this);
 
     }
 
