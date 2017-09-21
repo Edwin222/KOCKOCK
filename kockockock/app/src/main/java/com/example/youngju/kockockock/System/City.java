@@ -1,10 +1,12 @@
 package com.example.youngju.kockockock.System;
 
+import java.io.Serializable;
+
 /**
  * Created by sleep on 2017-08-22.
  */
 
-public class City {
+public class City implements Serializable{
     private int areaCode;
     private String name;
 

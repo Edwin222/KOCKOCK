@@ -1,6 +1,5 @@
 package com.example.youngju.kockockock.System;
 
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -32,9 +31,9 @@ public class TourAPIData {
         return LazyIdiom.INSTANCE;
     }
 
-    public City[] getMetro(){
+    public CityList getMetro(){
         doc = getXMLData("areaCode", 1);
-        City[] result = makeCityResult( doc.select("body").get(0).select("item") );
+        CityList result = makeCityResult( doc.select("body").get(0).select("item") );
 
         return result;
     }
@@ -46,10 +45,10 @@ public class TourAPIData {
         return result;
     }
 
-    public City[] getCity(final int areaCode){
+    public CityList getCity(final int areaCode){
         doc = getXMLData("areaCode", 1, "&areaCode="+String.valueOf(areaCode));
 
-        City[] result = makeCityResult( doc.select("body").get(0).select("item") );
+        CityList result = makeCityResult( doc.select("body").get(0).select("item") );
 
         return result;
     }
@@ -63,9 +62,9 @@ public class TourAPIData {
     }
 
     public int getMetroCode(int position){
-        City[] metroList = getMetro();
+        CityList metroList = getMetro();
 
-        return metroList[position].getCode();
+        return metroList.get(position).getCode();
 
     }
 
@@ -100,19 +99,19 @@ public class TourAPIData {
     }
 
     public int getCityCode(final int areaCode, int position){
-        City[] cityList = getCity(areaCode);
+        CityList cityList = getCity(areaCode);
 
-        return cityList[position].getCode();
+        return cityList.get(position).getCode();
     }
 
-    private City[] makeCityResult(Elements cityList){
-        City[] result = new City[cityList.size()];
+    private CityList makeCityResult(Elements cityList){
+        CityList result = new CityList();
 
         for(int i=0; i < cityList.size(); i++){
             int code = Integer.parseInt(cityList.get(i).select("code").get(0).text());
             String name = cityList.get(i).select("name").get(0).text();
 
-            result[i] = new City(code, name);
+            result.add(new City(code, name));
         }
 
         return result;

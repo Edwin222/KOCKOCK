@@ -12,6 +12,7 @@ import android.widget.Spinner;
 
 import com.example.youngju.kockockock.R;
 import com.example.youngju.kockockock.System.APIGetter;
+import com.example.youngju.kockockock.System.CityList;
 import com.example.youngju.kockockock.System.Path;
 import com.example.youngju.kockockock.System.TravelInfo;
 
@@ -23,8 +24,8 @@ import java.util.Date;
 
 public class TravelSetting extends AppCompatActivity {
 
-    String[] mainCityArr;
-    String[] subCityArr;
+    CityList mainCityArr;
+    CityList subCityArr;
 
     mainSpinnerListener mainListener;
     subSpinnerListener subListener;
@@ -47,17 +48,16 @@ public class TravelSetting extends AppCompatActivity {
         subListener = new subSpinnerListener();
         mainCitySpinner = (Spinner) findViewById(R.id.MainCitySpinner);
 
-        APIGetter apiGetter = null;
+        APIGetter apiGetter = new APIGetter(APIGetter.TOURAPI_METRO);;
         try {
-            apiGetter = new APIGetter(APIGetter.TOURAPI_METRO_N);
             apiGetter.start();
             apiGetter.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        mainCityArr = (String[]) apiGetter.getResult();
-        ArrayAdapter<CharSequence> mainAdapter = new ArrayAdapter<CharSequence>(getApplicationContext(), android.R.layout.simple_spinner_item, mainCityArr);
+        mainCityArr = (CityList) apiGetter.getResult();
+        ArrayAdapter<CharSequence> mainAdapter = new ArrayAdapter<CharSequence>(getApplicationContext(), android.R.layout.simple_spinner_item, mainCityArr.getNameArray());
         mainAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mainCitySpinner.setAdapter(mainAdapter);
 
@@ -87,12 +87,13 @@ public class TravelSetting extends AppCompatActivity {
             public void onClick(View view) {
                 Date date =new Date(cal.getDate());
                 travelInfo.setStartTime(date);
-//                travelInfo.setMetro(mainCityArr[mainListener.getPosition()]);
-//                travelInfo.setCity(subCityArr[subListener.getPosition()]);
+
+                CityList cityList=new CityList();
+                travelInfo.setMetro( mainCityArr.get(mainListener.getPosition()));
+                travelInfo.setCity(subCityArr.get(subListener.getPosition()));
                 Path path=new Path("");
-//                path.setTravelInfo(travelInfo);
+                path.setTravelInfo(travelInfo);
                 intent.putExtra("Path", path);
-//                Log.d("Kock","travelSetting: put path" + path.toString());
                 startActivity(intent);
             }
         });
@@ -136,7 +137,7 @@ public class TravelSetting extends AppCompatActivity {
 
                 int code = (int) codeGetter.getResult();
 
-                apiGetter = new APIGetter(APIGetter.TOURAPI_CITY_N);
+                apiGetter = new APIGetter(APIGetter.TOURAPI_CITY);
                 apiGetter.addParam(code);
                 apiGetter.start();
                 apiGetter.join();
@@ -144,8 +145,8 @@ public class TravelSetting extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            subCityArr = (String[]) apiGetter.getResult();
-            ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getApplicationContext(), android.R.layout.simple_spinner_item, subCityArr);
+            subCityArr = (CityList) apiGetter.getResult();
+            ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getApplicationContext(), android.R.layout.simple_spinner_item, subCityArr.getNameArray());
             subCitySpinner.setAdapter(adapter);
         }
 

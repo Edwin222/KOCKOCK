@@ -1,12 +1,13 @@
 package com.example.youngju.kockockock.System;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Edwin on 2017-09-22.
  */
 
-public class CityList extends ArrayList<City> {
+public class CityList extends ArrayList<City> implements Serializable{
 
     public String[] getNameArray(){
         String[] result = new String[this.size()];
