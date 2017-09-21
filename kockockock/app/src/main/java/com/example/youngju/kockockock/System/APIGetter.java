@@ -12,6 +12,9 @@ public class APIGetter extends Thread {
     public final static int TOURAPI_CITY_N = 2;
     public final static int TOURAPI_METRO_CODE = 3;
     public final static int SKPAPI_DISTANCE = 4;
+    public final static int TOURAPI_CITY_CODE = 5;
+    public final static int TOURAPI_GET_REGION = 6;
+    public final static int TOURAPI_OVERVIEW = 7;
 
     private int mode_dataType;
     private Object result;
@@ -48,6 +51,15 @@ public class APIGetter extends Thread {
                 break;
             case SKPAPI_DISTANCE:
                 result = SKAPIData.getInstance().getTotalDistance((String) parameter.get(0), (String) parameter.get(1), (String) parameter.get(2) ,(String) parameter.get(3));
+                break;
+            case TOURAPI_CITY_CODE:
+                result = TourAPIData.getInstance().getCityCode((int) parameter.get(0), (int) parameter.get(1));
+                break;
+            case TOURAPI_GET_REGION:
+                result = TourAPIData.getInstance().getRegionByCity((int) parameter.get(0), (int) parameter.get(1));
+                break;
+            case TOURAPI_OVERVIEW:
+                result = TourAPIData.getInstance().getOverview((String) parameter.get(0));
                 break;
         }
     }
