@@ -38,12 +38,8 @@ public class TourAPIData {
     }
 
     public String[] getMetroName(){
-        City[] cityList = getMetro();
-        String[] result = new String[cityList.length];
-
-        for(int i=0;i<cityList.length;i++){
-            result[i] = cityList[i].getName();
-        }
+        doc = getXMLData("areaCode", 1);
+        String[] result = makeCityNameResult( doc.select("body").get(0).select("item") );
 
         return result;
     }
@@ -57,12 +53,9 @@ public class TourAPIData {
     }
 
     public String[] getCityName(final int areaCode){
-        City[] cityList = getCity(areaCode);
-        String[] result = new String[cityList.length];
+        doc = getXMLData("areaCode", 1, "&areaCode="+String.valueOf(areaCode));
 
-        for(int i=0;i<cityList.length;i++){
-            result[i] = cityList[i].getName();
-        }
+        String[] result = makeCityNameResult( doc.select("body").get(0).select("item") );
 
         return result;
     }
@@ -92,6 +85,15 @@ public class TourAPIData {
         return result;
     }
 
+    private String[] makeCityNameResult(Elements cityList){
+        String[] result = new String[cityList.size()];
+
+        for(int i=0; i<cityList.size();i++){
+            result[i] = cityList.get(i).select("name").get(0).text();
+        }
+
+        return result;
+    }
 
     private synchronized Document getXMLData(String serviceName, int page, String... parameters){
 

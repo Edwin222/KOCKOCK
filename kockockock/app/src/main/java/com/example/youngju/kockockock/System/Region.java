@@ -21,20 +21,28 @@ public class Region implements Serializable {
     private boolean rec;
     private int choice;
 
-    private String pos_X;
-    private String pos_Y;
+    private String latitude; //경도, 세로줄
+    private String longitude; //위도, 가로줄
+    private String content;
+    private String name;
 
-    public Region(int type, boolean r, int cho, String x, String y){
+    public Region(String name, String content, int type, boolean r, int cho, String latitude, String longitude){
+        this.name = name;
+        this.content = content;
         this.type = type;
         this.rec = r;
         this.choice = cho;
-        pos_X = x;
-        pos_Y = y;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public String getX(){ return pos_X; }
+    public String getName(){ return name; }
 
-    public String getY() { return pos_Y; }
+    public String getContent() { return content; }
+
+    public String getLatitude(){ return latitude; }
+
+    public String getLongitude() { return longitude; }
 
     public int getType(){
         return type;
@@ -44,7 +52,7 @@ public class Region implements Serializable {
         return rec;
     }
 
-    public int getChosenStatus(){
+    public int getChosenStatus() {
         return choice;
     }
 }

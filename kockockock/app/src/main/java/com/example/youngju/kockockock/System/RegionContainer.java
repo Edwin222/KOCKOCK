@@ -2,6 +2,7 @@ package com.example.youngju.kockockock.System;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by sleep on 2017-08-15.
@@ -9,38 +10,79 @@ import java.util.ArrayList;
 
 public class RegionContainer extends ArrayList<Region> implements Serializable {
 
-    public void TSPSort(){
+
+    public void setRegionSequence(){
+        int n = this.size();
+        int minWeight = Integer.MAX_VALUE;
+        HeapElement minElement = null;
+        int[][] graphMatrix = initalizeMatrix();
         ArrayList<Integer> presentPath = new ArrayList<Integer>();
-        presentPath.add(new Integer(0));
+        MinHeap heap = new MinHeap();
+
+        presentPath.add(0);
+        heap.add(new HeapElement(getBound(graphMatrix, presentPath), presentPath));
 
         //TSP Algorithm Application
-        while()
+        while(!heap.isEmpty()){
+            HeapElement cursor = heap.popHeap();
+            if(cursor.getBound() >= minWeight){
+                continue;
+            }
+
+            if(cursor.getPath().size() == n-2){ // make path
+                cursor.getPath().add(n-1);
+                for(int i=0;i<n;i++){
+                    if( !isInPath(i, cursor.getPath()) ){
+                        cursor.getPath().add(n-3, i);
+                        break;
+                    }
+                }
+
+                int tweight = cursor.getTotalWeight(graphMatrix);
+                if( tweight < minWeight){
+                    minWeight = tweight;
+                    minElement = cursor;
+                }
+                continue;
+            }
+
+            for(int i=0;i<n-1;i++){
+                presentPath = new ArrayList<Integer>(cursor.getPath());
+
+                if(!isInPath(i, presentPath)){
+                    presentPath.add(i);
+                    heap.addHeap(new HeapElement(getBound(graphMatrix, presentPath), presentPath));
+                }
+            }
+        }
+
+        refeshSequence(minElement.getPath());
     }
 
+    private void refeshSequence(ArrayList<Integer> path){
+        ArrayList<Region> newSequence = new ArrayList<Region>();
+
+        int length = path.size();
+        for(int i=0;i<length;i++){
+            newSequence.add( this.get( path.get(i) ));
+        }
+
+        this.removeAll(null);
+        for(Region r : newSequence){
+            this.add(r);
+        }
+    }
     private int getWeight(int start, int end){
         if(start == end) {
             return -1;
         }
 
-        APIGetter apiGetter = new APIGetter(APIGetter.SKPAPI_DISTANCE);
-
-        apiGetter.addParam( this.get(0).getX() );
-        apiGetter.addParam( this.get(0).getY() );
-        apiGetter.addParam( this.get(1).getX() );
-        apiGetter.addParam( this.get(1).getY() );
-
-        try {
-            apiGetter.start();
-            apiGetter.join();
-        } catch(InterruptedException e){
-            e.printStackTrace();
-        }
-
-        return (int) apiGetter.getResult();
+        Random rander = new Random();
+        return rander.nextInt(20);
     }
 
     private boolean isInPath(int target, ArrayList<Integer> path){
-        return path.contains( new Integer(target) );
+        return path.contains( target );
     }
 
     private int[][] initalizeMatrix(){
@@ -74,10 +116,10 @@ public class RegionContainer extends ArrayList<Region> implements Serializable {
             int min = Integer.MAX_VALUE;
             for(int j=0;j<n;j++){
                 if(last == i) {
-                    if(j == 0 || isInPath(j, path)) continue;
+                    if(j == 0 || isInPath(j, path) || matrix[i][j] < 0) continue;
                 }
                 else {
-                    if( isInPath(j, path) ) continue;
+                    if( isInPath(j, path) || matrix[i][j] < 0) continue;
                 }
 
                 if(min > matrix[i][j]){
