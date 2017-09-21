@@ -27,8 +27,10 @@ public class APIGetter extends Thread {
         parameter = new ArrayList<Object>();
     }
 
-    public void addParam(Object parm){
-        parameter.add(parm);
+    public void addParam(Object... parm){
+        for(Object o : parm){
+            parameter.add(o);
+        }
     }
 
     public void resetParam(){
