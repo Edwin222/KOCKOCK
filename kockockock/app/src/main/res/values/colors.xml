@@ -3,5 +3,11 @@
     <color name="colorPrimary">#6dda00</color>
     <color name="colorPrimaryDark">#009f06</color>
     <color name="colorAccent">#ffdd00</color>
+    <color name="ButtonColor1">#ffdf27</color>
+    <color name="ButtonColor2">#ffdf27</color>
+    <color name="ButtonColor3">#ffdf27</color>
+    <color name="ButtonColor4">#ffdf27</color>
+    <color name="ButtonColor5">#ffdf27</color>
+    <color name="ButtonColor6">#ffdf27</color>
     <color name="primary_text_default_material_light">#aaf2f2f2</color>
 </resources>

@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
-            android:background="#ffdf27"
+            android:background="@color/ButtonColor1"
             android:padding="0dp"
             android:text="FILTER1" />
 
@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
             android:background="#ffdf30"
-            android:text="FILTER2" />
+            android:text="FILTER2"
+            android:textColorLink="@color/ButtonColor2" />
 
         <Button
             android:id="@+id/filter3"
@@ -34,7 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
             android:background="#ffdf27"
-            android:text="FILTER3" />
+            android:text="FILTER3"
+            android:textColorLink="@color/ButtonColor3" />
 
         <Button
             android:id="@+id/filter4"
@@ -42,7 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
             android:background="#ffdf27"
-            android:text="FILTER4" />
+            android:text="FILTER4"
+            android:textColorLink="@color/ButtonColor4" />
     </LinearLayout>
 
     <fragment
