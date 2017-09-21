@@ -12,6 +12,8 @@ import java.io.IOException;
  * Created by sleep on 2017-08-19.
  */
 
+// 필요한 지역 정보?
+
 public class TourAPIData {
     private final String OS = "AND";
     private final String APPNAME = "KOCKOCK";

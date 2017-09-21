@@ -10,6 +10,8 @@ import java.io.IOException;
  * Created by Edwin on 2017-09-09.
  */
 
+//날씨 정보
+
 public class SKAPIData {
 
     private Document doc;
