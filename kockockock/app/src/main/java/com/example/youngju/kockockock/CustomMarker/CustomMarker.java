@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.youngju.kockockock.R;
-import com.example.youngju.kockockock.System.Region;
+import com.example.youngju.kockockock.System.DataUnit.Region;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;

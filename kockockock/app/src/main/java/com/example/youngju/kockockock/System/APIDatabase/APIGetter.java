@@ -1,7 +1,6 @@
-package com.example.youngju.kockockock.System;
+package com.example.youngju.kockockock.System.APIDatabase;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Created by Edwin on 2017-09-09.
@@ -17,6 +16,7 @@ public class APIGetter extends Thread {
     public final static int TOURAPI_OVERVIEW = 7;
     public final static int TOURAPI_METRO = 8;
     public final static int TOURAPI_CITY =9;
+    public final static int SKPAPI_WEATHER = 10;
 
     private int mode_dataType;
     private Object result;
@@ -70,6 +70,9 @@ public class APIGetter extends Thread {
                 break;
             case TOURAPI_CITY:
                 result = TourAPIData.getInstance().getCity((int) parameter.get(0));
+                break;
+            case SKPAPI_WEATHER:
+                result = SKAPIData.getInstance().getWeeklyWeather( (String) parameter.get(0), (String) parameter.get(1) );
                 break;
         }
     }

@@ -1,4 +1,6 @@
-package com.example.youngju.kockockock.System;
+package com.example.youngju.kockockock.System.DataContainer;
+
+import com.example.youngju.kockockock.System.DataUnit.City;
 
 import java.io.Serializable;
 import java.util.ArrayList;

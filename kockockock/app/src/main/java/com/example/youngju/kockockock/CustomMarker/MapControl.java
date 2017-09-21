@@ -3,10 +3,10 @@ package com.example.youngju.kockockock.CustomMarker;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.youngju.kockockock.System.Region;
-import com.example.youngju.kockockock.System.RegionContainer;
-import com.example.youngju.kockockock.System.RegionManager;
-import com.example.youngju.kockockock.System.TravelInfo;
+import com.example.youngju.kockockock.System.DataContainer.RegionContainer;
+import com.example.youngju.kockockock.System.DataContainer.RegionManager;
+import com.example.youngju.kockockock.System.DataUnit.Region;
+import com.example.youngju.kockockock.System.DataUnit.TravelInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,14 +29,14 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
     Context context;
     int type;
 
-    public MapControl(Context context, GoogleMap mMap, TravelInfo travelInfo,int type) {
+    public MapControl(Context context, GoogleMap mMap, TravelInfo travelInfo, int type) {
         Log.d("test","mapcontrol constructor : context -> " + context);
         this.context = context;
         mMap.setOnMarkerClickListener(this);
         this.mMap = mMap;
         this.type=type;
         selectedRegion=new ArrayList<Region>();
-        regionManager = new RegionManager(travelInfo.getMetro().getCode(), travelInfo.getCity().getCode());
+        regionManager = new RegionManager(travelInfo.getMetro(), travelInfo.getCity());
         onMapReady(mMap);
     }
 
