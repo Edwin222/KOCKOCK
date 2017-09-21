@@ -1,4 +1,4 @@
-package com.example.youngju.kockockock.System;
+package com.example.youngju.kockockock.System.OperationStructure;
 
 import java.util.ArrayList;
 

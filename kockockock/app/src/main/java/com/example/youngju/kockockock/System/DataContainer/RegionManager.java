@@ -1,4 +1,8 @@
-package com.example.youngju.kockockock.System;
+package com.example.youngju.kockockock.System.DataContainer;
+
+import com.example.youngju.kockockock.System.APIDatabase.APIGetter;
+import com.example.youngju.kockockock.System.DataUnit.City;
+import com.example.youngju.kockockock.System.DataUnit.Region;
 
 import java.util.ArrayList;
 
@@ -8,10 +12,10 @@ import java.util.ArrayList;
 
 public class RegionManager extends ArrayList<Region> {
 
-    public RegionManager(int metroCode, int cityCode){
+    public RegionManager(City metro, City city){
         APIGetter apiGetter = new APIGetter(APIGetter.TOURAPI_GET_REGION);
 
-        apiGetter.addParam(metroCode, cityCode);
+        apiGetter.addParam(metro.getCode(), city.getCode());
 
         try {
             apiGetter.start();

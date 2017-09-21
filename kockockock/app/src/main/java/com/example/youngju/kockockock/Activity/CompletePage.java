@@ -16,11 +16,17 @@ import android.widget.Toast;
 
 import com.example.youngju.kockockock.CustomMarker.CustomMarker;
 import com.example.youngju.kockockock.R;
+<<<<<<< HEAD
 import com.example.youngju.kockockock.System.Path;
 import com.example.youngju.kockockock.System.PathManager;
 import com.example.youngju.kockockock.System.Region;
 import com.example.youngju.kockockock.System.RegionContainer;
 import com.example.youngju.kockockock.System.TravelInfo;
+=======
+import com.example.youngju.kockockock.System.DataUnit.Path;
+import com.example.youngju.kockockock.System.DataContainer.PathManager;
+import com.example.youngju.kockockock.System.DataUnit.TravelInfo;
+>>>>>>> develop
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
