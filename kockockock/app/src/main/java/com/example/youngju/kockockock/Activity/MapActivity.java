@@ -9,9 +9,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.youngju.kockockock.R;
-import com.example.youngju.kockockock.System.Path;
-import com.example.youngju.kockockock.System.PathManager;
-import com.example.youngju.kockockock.System.TravelInfo;
+import com.example.youngju.kockockock.System.DataUnit.Path;
+import com.example.youngju.kockockock.System.DataContainer.PathManager;
+import com.example.youngju.kockockock.System.DataUnit.TravelInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

@@ -12,9 +12,9 @@ import android.widget.CalendarView;
 import android.widget.Spinner;
 
 import com.example.youngju.kockockock.R;
-import com.example.youngju.kockockock.System.APIGetter;
-import com.example.youngju.kockockock.System.Path;
-import com.example.youngju.kockockock.System.TravelInfo;
+import com.example.youngju.kockockock.System.APIDatabase.APIGetter;
+import com.example.youngju.kockockock.System.DataUnit.Path;
+import com.example.youngju.kockockock.System.DataUnit.TravelInfo;
 
 import java.util.Date;
 
