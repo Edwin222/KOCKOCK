@@ -6,15 +6,15 @@ import java.util.Date;
 
 public class TravelInfo implements Cloneable, Serializable {
     private Date startTime;
-    private String city;
-    private String local;
+    private City metro;
+    private City city;
 
     public TravelInfo(){}
 
-    public TravelInfo(Date st,  String c, String l){
+    public TravelInfo(Date st, City m, City c){
         setStartTime(st);
-        setCity(c);
-        setLocal(l);
+        setMetro(new City(m));
+        setCity(new City(c));
     }
 
     @Override
@@ -22,8 +22,8 @@ public class TravelInfo implements Cloneable, Serializable {
 
         TravelInfo data = (TravelInfo)super.clone();
         data.setStartTime((Date) startTime.clone());
-        data.setCity(city.toString());
-        data.setLocal(local.toString());
+        data.setMetro(new City(metro));
+        data.setCity(new City(city));
         return data;
 
     }
@@ -33,25 +33,16 @@ public class TravelInfo implements Cloneable, Serializable {
         return startTime;
     }
 
-    public String getCity(){
-        return city;
-    }
+    public City getMetro() { return metro; }
 
-    public String getLocal(){
-        return local;
-    }
+    public City getCity() { return city; }
 
     //Mutator
     public void setStartTime(Date st){
         startTime = st;
     }
 
-    public void setCity(String c){
-        city = c;
-    }
+    public void setMetro(City m){ metro = m; }
 
-    public void setLocal(String l){
-        local = l;
-    }
-
+    public void setCity(City c){ city = c; }
 }

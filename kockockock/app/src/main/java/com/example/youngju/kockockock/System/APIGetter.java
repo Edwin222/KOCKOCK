@@ -15,6 +15,8 @@ public class APIGetter extends Thread {
     public final static int TOURAPI_CITY_CODE = 5;
     public final static int TOURAPI_GET_REGION = 6;
     public final static int TOURAPI_OVERVIEW = 7;
+    public final static int TOURAPI_METRO = 8;
+    public final static int TOURAPI_CITY =9;
 
     private int mode_dataType;
     private Object result;
@@ -60,6 +62,12 @@ public class APIGetter extends Thread {
                 break;
             case TOURAPI_OVERVIEW:
                 result = TourAPIData.getInstance().getOverview((String) parameter.get(0));
+                break;
+            case TOURAPI_METRO:
+                result = TourAPIData.getInstance().getMetro();
+                break;
+            case TOURAPI_CITY:
+                result = TourAPIData.getInstance().getCity((int) parameter.get(0));
                 break;
         }
     }

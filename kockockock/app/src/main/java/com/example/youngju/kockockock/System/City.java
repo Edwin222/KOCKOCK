@@ -13,6 +13,11 @@ public class City {
         name = n;
     }
 
+    public City(City c){
+        areaCode = c.getCode();
+        name = c.getName();
+    }
+
     public int getCode(){
         return areaCode;
     }
