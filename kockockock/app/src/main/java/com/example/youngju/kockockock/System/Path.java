@@ -40,6 +40,6 @@ public class Path implements Serializable {
 
     @Override
     public String toString(){
-        return "Path:"+pathName+"  city:"+travelinfo.getCity()+"  local:"+travelinfo.getLocal();
+        return "Path:"+pathName+"  city:"+travelinfo.getMetro().getName()+"  local:"+travelinfo.getCity().getName();
     }
 }

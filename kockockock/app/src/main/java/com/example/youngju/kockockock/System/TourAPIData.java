@@ -3,10 +3,12 @@ package com.example.youngju.kockockock.System;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by sleep on 2017-08-19.
@@ -38,12 +40,8 @@ public class TourAPIData {
     }
 
     public String[] getMetroName(){
-        City[] cityList = getMetro();
-        String[] result = new String[cityList.length];
-
-        for(int i=0;i<cityList.length;i++){
-            result[i] = cityList[i].getName();
-        }
+        doc = getXMLData("areaCode", 1);
+        String[] result = makeCityNameResult( doc.select("body").get(0).select("item") );
 
         return result;
     }
@@ -57,12 +55,9 @@ public class TourAPIData {
     }
 
     public String[] getCityName(final int areaCode){
-        City[] cityList = getCity(areaCode);
-        String[] result = new String[cityList.length];
+        doc = getXMLData("areaCode", 1, "&areaCode="+String.valueOf(areaCode));
 
-        for(int i=0;i<cityList.length;i++){
-            result[i] = cityList[i].getName();
-        }
+        String[] result = makeCityNameResult( doc.select("body").get(0).select("item") );
 
         return result;
     }
@@ -74,11 +69,42 @@ public class TourAPIData {
 
     }
 
-    /*
-    public int getCityCode(int code, int position){
-        City[] cityList =  getCity(code);
+    public String getOverview(String ID){
+
+        doc = getXMLData("detailCommon", 1, "contentId="+ID, "overviewYN=Y");
+
+        return doc.select("overview").text();
     }
-*/
+
+    public ArrayList<Region> getRegionByCity(int metroCode, int cityCode){
+
+        doc = getXMLData("areaBasedList", 1, "areaCode="+metroCode, "sigunguCode="+cityCode, "arrange=B");
+
+        ArrayList<Region> result = new ArrayList<Region>();
+
+        Elements regionList = doc.select("body").get(0).select("item");
+        int itemNum = (regionList.size() > 10) ? 10 : regionList.size();
+        for(int i=0;i<itemNum;i++){
+            Element target = regionList.get(i);
+
+            String ID = target.select("contentid").text();
+            int type = Integer.parseInt(target.select("contenttypeid").text());
+            String name = target.select("title").text();
+            String latitude = target.select("mapy").text();
+            String longitude = target.select("mapx").text();
+
+            result.add(new Region(ID, name, type, latitude, longitude));
+        }
+
+        return result;
+    }
+
+    public int getCityCode(final int areaCode, int position){
+        City[] cityList = getCity(areaCode);
+
+        return cityList[position].getCode();
+    }
+
     private City[] makeCityResult(Elements cityList){
         City[] result = new City[cityList.size()];
 
@@ -92,6 +118,15 @@ public class TourAPIData {
         return result;
     }
 
+    private String[] makeCityNameResult(Elements cityList){
+        String[] result = new String[cityList.size()];
+
+        for(int i=0; i<cityList.size();i++){
+            result[i] = cityList.get(i).select("name").get(0).text();
+        }
+
+        return result;
+    }
 
     private synchronized Document getXMLData(String serviceName, int page, String... parameters){
 

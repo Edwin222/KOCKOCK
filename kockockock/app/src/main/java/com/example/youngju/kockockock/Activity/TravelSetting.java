@@ -3,7 +3,6 @@ package com.example.youngju.kockockock.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -88,12 +87,12 @@ public class TravelSetting extends AppCompatActivity {
             public void onClick(View view) {
                 Date date =new Date(cal.getDate());
                 travelInfo.setStartTime(date);
-                travelInfo.setCity(mainCityArr[mainListener.getPosition()]);
-                travelInfo.setLocal(subCityArr[subListener.getPosition()]);
+//                travelInfo.setMetro(mainCityArr[mainListener.getPosition()]);
+//                travelInfo.setCity(subCityArr[subListener.getPosition()]);
                 Path path=new Path("");
-                path.setTravelInfo(travelInfo);
+//                path.setTravelInfo(travelInfo);
                 intent.putExtra("Path", path);
-                Log.d("Kock","travelSetting: put path" + path.toString());
+//                Log.d("Kock","travelSetting: put path" + path.toString());
                 startActivity(intent);
             }
         });

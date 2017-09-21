@@ -23,15 +23,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * Created by YoungJu on 2017-09-22.
  */
 
-public class CustomMarker{
+public class CustomMarker {
     GoogleMap mMap;
     View marker_root_view;
     TextView tv_marker;
     Context context;
 
-    public CustomMarker(Context context,GoogleMap mMap){
-        this.context=context;
-        this.mMap=mMap;
+    public CustomMarker(Context context, GoogleMap mMap) {
+        this.context = context;
+        this.mMap = mMap;
         setCustomMarkerView();
     }
 
@@ -56,13 +56,16 @@ public class CustomMarker{
         tv_marker = (TextView) marker_root_view.findViewById(R.id.tv_marker);
     }
 
-    public Marker addMarker(Region region) {
-        LatLng newRegion = new LatLng(Double.parseDouble(region.getX()) + 1.0, Double.parseDouble(region.getY()) + 1.0);
-        String formatted = "title";
+    public Marker addMarker(Region region ) {
+
+        double x = Double.parseDouble(region.getLatitude()) + 1.0  ;
+        double y = Double.parseDouble(region.getLongitude()) + 1.0  ;
+        LatLng newRegion = new LatLng(x, y);
+        String formatted = region.getName();
 
         tv_marker.setText(formatted);
 
-        if (region.getChosenStatus()==1) {
+        if (region.getChosenStatus() == 1) {
             tv_marker.setBackgroundResource(R.drawable.colorbackground);
             tv_marker.setTextColor(Color.BLACK);
         } else {
@@ -75,9 +78,7 @@ public class CustomMarker{
         markerOptions.position(newRegion);
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(context, marker_root_view)));
 
-
         return mMap.addMarker(markerOptions);
-
     }
 
 }

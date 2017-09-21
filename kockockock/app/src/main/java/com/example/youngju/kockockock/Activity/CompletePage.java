@@ -36,7 +36,9 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
     Intent intent;
     Path path;
     TravelInfo travelInfo;
+
     Button menu;
+
     GoogleMap mMap;
     RegionContainer regionContainer;
     ArrayList<Marker> markerArrayList;
@@ -51,7 +53,6 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
 
         path=(Path)intent.getSerializableExtra("Path");
         travelInfo=path.getTravelInfo();
-        Log.d("Kock","CompleteActivity: get Path "+path.toString());
 
         ImageButton prev=(ImageButton)findViewById(R.id.prev_to_map);
         prev.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +60,6 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
             public void onClick(View view) {
                 Intent in=new Intent(CompletePage.this,MapActivity.class);
                 in.putExtra("Path",path);
-                Log.d("Kock","CompleteActivity: put Path "+path.toString());
                 startActivity(in);
             }
         });
@@ -80,9 +80,7 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
             @Override
             public void onClick(View view) {
                 clearMarker();
-                setRegionArr(1);
-                setMaker();
-                setCamera();
+                setMaker(1);
             }
         });
 
@@ -91,9 +89,7 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
             @Override
             public void onClick(View view) {
                 clearMarker();
-                setRegionArr(2);
-                setMaker();
-                setCamera();
+                setMaker(2);
             }
         });
 
@@ -152,20 +148,29 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
         p.show();
     }
 
-    public void setRegionArr(int type){
+    public void setMaker(int type){
+        int cnt=0;
+        String name="name";
+
         regionContainer=new RegionContainer();
-        regionContainer.add(new Region(0,false,0,"37.02"+ type,"126.02"+type));
-        regionContainer.add(new Region(0,false,0,"37.00"+type,"126.00"+type));
-        regionContainer.add(new Region(0,false,0,"37.01"+type,"126.01"+type));
-        regionContainer.add(new Region(0,false,0,"37.03"+type,"126.03"+type));
-        regionContainer.add(new Region(0,false,0,"37.04"+type,"126.04"+type));
-    }
-    public void setCamera(){
-        double x= Double.parseDouble(regionContainer.get(0).getX()) + 1.0;
-        double y= Double.parseDouble(regionContainer.get(0).getY()) + 1.0;
+        regionContainer.add(new Region("",name,0,"37.02" ,"126.02" ));
+        regionContainer.add(new Region("",name,0,"37.01" ,"126.01" ));
+        regionContainer.add(new Region("",name,0,"37.03" ,"126.03" ));
+        regionContainer.add(new Region("",name,0,"37.04" ,"126.04" ));
+        regionContainer.add(new Region("",name,0,"37.05" ,"126.05" ));
+
+        for(Region region:regionContainer) {
+            Marker marker=customMarker.addMarker(region );
+            marker.setTag(region);
+            markerArrayList.add(marker);
+        }
+
+        double x= Double.parseDouble(regionContainer.get(0).getLatitude()) + 1.0  ;
+        double y= Double.parseDouble(regionContainer.get(0).getLongitude()) + 1.0  ;
         mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(x,y)));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
     }
+
     public void clearMarker(){
         for(Marker m:markerArrayList){
             m.remove();
@@ -178,19 +183,8 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
         mMap = map;
         markerArrayList=new ArrayList<Marker>();
         customMarker=new CustomMarker(this,mMap);
-        setRegionArr(1);
-        setMaker();
-        setCamera();
+        setMaker(1);
         mMap.setOnMarkerClickListener(this);
-    }
-
-    public void setMaker(){
-        int cnt=0;
-        for(Region region:regionContainer) {
-            Marker marker=customMarker.addMarker(region);
-            marker.setTag(region);
-            markerArrayList.add(marker);
-        }
     }
 
     @Override

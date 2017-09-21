@@ -25,7 +25,7 @@ import com.google.android.gms.maps.model.Marker;
 import java.util.ArrayList;
 
 
-public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener,OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
     PathManager pathManager;
     Intent intent;
@@ -46,7 +46,6 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
 
         path = (Path) intent.getSerializableExtra("Path");
         travelInfo = path.getTravelInfo();
-        Log.d("Kock", "MapActivity: get Path " + path.toString());
 
         ImageButton prev = (ImageButton) findViewById(R.id.prev_to_day);
         prev.setOnClickListener(new View.OnClickListener() {
@@ -63,12 +62,11 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
             public void onClick(View view) {
                 Intent in = new Intent(MapActivity.this, CompletePage.class);
                 in.putExtra("Path", path);
-                Log.d("Kock", "MapActivity: put Path " + path.toString());
                 startActivity(in);
             }
         });
 
-        SupportMapFragment mapFragment=(SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map1);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map1);
         mapFragment.getMapAsync(this);
 
         Button filter1 = (Button) findViewById(R.id.filter1);
@@ -111,8 +109,8 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
     }
 
 
-    public void clearMarker(){
-        for(Marker m:markerArrayList){
+    public void clearMarker() {
+        for (Marker m : markerArrayList) {
             m.remove();
         }
     }
@@ -121,41 +119,44 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
-        markerArrayList=new ArrayList<Marker>();
-        customMarker=new CustomMarker(this,mMap);
+        markerArrayList = new ArrayList<Marker>();
+        customMarker = new CustomMarker(this, mMap);
         setMaker(1);
         mMap.setOnMarkerClickListener(this);
     }
 
-    public void setMaker(int type){
-        int cnt=0;
-        regionContainer=new RegionContainer();
-        regionContainer.add(new Region(0,false,0,"37.02"+ type,"126.02"+type));
-        regionContainer.add(new Region(0,false,0,"37.00"+type,"126.00"+type));
-        regionContainer.add(new Region(0,false,0,"37.01"+type,"126.01"+type));
-        regionContainer.add(new Region(0,false,0,"37.03"+type,"126.03"+type));
-        regionContainer.add(new Region(0,false,0,"37.04"+type,"126.04"+type));
+    public void setMaker(int type) {
+        int cnt = 0;
+        String name = "name";
 
-        for(Region region:regionContainer) {
-            Marker marker=customMarker.addMarker(region);
+        regionContainer = new RegionContainer();
+        regionContainer.add(new Region("", name, 0, "37.02", "126.02"));
+        regionContainer.add(new Region("", name, 0, "37.01", "126.01"));
+        regionContainer.add(new Region("", name, 0, "37.03", "126.03"));
+        regionContainer.add(new Region("", name, 0, "37.04", "126.04"));
+        regionContainer.add(new Region("", name, 0, "37.05", "126.05"));
+
+        for (Region region : regionContainer) {
+            Marker marker = customMarker.addMarker(region);
             marker.setTag(region);
             markerArrayList.add(marker);
         }
 
-        double x= Double.parseDouble(regionContainer.get(0).getX()) + 1.0;
-        double y= Double.parseDouble(regionContainer.get(0).getY()) + 1.0;
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(x,y)));
+        double x = Double.parseDouble(regionContainer.get(0).getLatitude()) + 1.0  ;
+        double y = Double.parseDouble(regionContainer.get(0).getLongitude()) + 1.0  ;
+        Log.d("test","x: "+x+" y: "+y);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(x, y)));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Region region=(Region) marker.getTag();
+        Region region = (Region) marker.getTag();
 
-        if(region.getChosenStatus()==0) region.setChoice(1);
+        if (region.getChosenStatus() == 0) region.setChoice(1);
         else region.setChoice(0);
 
-        Marker marker1=customMarker.addMarker(region);
+        Marker marker1 = customMarker.addMarker(region);
         marker1.setTag(region);
         markerArrayList.add(marker1);
         markerArrayList.remove(marker);
