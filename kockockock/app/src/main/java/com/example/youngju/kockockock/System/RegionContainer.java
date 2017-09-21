@@ -77,8 +77,19 @@ public class RegionContainer extends ArrayList<Region> implements Serializable {
             return -1;
         }
 
-        Random rander = new Random();
-        return rander.nextInt(20);
+        APIGetter apiGetter = new APIGetter(APIGetter.SKPAPI_DISTANCE);
+
+        apiGetter.addParam( this.get(start).getLongitude(), this.get(start).getLatitude());
+        apiGetter.addParam( this.get(end).getLongitude(), this.get(end).getLatitude());
+
+        try {
+            apiGetter.start();
+            apiGetter.join();
+        } catch(InterruptedException e){
+            e.printStackTrace();
+        }
+
+        return (int) apiGetter.getResult();
     }
 
     private boolean isInPath(int target, ArrayList<Integer> path){
