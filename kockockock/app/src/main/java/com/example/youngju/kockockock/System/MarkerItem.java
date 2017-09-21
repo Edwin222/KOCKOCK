@@ -1,5 +1,7 @@
 package com.example.youngju.kockockock.System;
 
+import com.example.youngju.kockockock.System.DataUnit.Region;
+
 /**
  * Created by YoungJu on 2017-09-21.
  */
