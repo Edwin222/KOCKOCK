@@ -2,7 +2,6 @@ package com.example.youngju.kockockock.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,11 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.youngju.kockockock.R;
 import com.example.youngju.kockockock.System.APIGetter;
+import com.example.youngju.kockockock.System.Path;
 import com.example.youngju.kockockock.System.TravelInfo;
+
 import java.util.Date;
 
 /**
@@ -90,9 +90,11 @@ public class TravelSetting extends AppCompatActivity {
                 travelInfo.setStartTime(date);
                 travelInfo.setCity(mainCityArr[mainListener.getPosition()]);
                 travelInfo.setLocal(subCityArr[subListener.getPosition()]);
-                intent.putExtra("Travel Info", travelInfo);
+                Path path=new Path("");
+                path.setTravelInfo(travelInfo);
+                intent.putExtra("Path", path);
+                Log.d("Kock","travelSetting: put path" + path.toString());
                 startActivity(intent);
-
             }
         });
     }

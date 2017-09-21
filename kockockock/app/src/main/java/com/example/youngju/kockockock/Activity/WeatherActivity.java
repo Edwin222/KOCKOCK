@@ -1,7 +1,10 @@
 package com.example.youngju.kockockock.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.youngju.kockockock.R;
 
@@ -11,5 +14,13 @@ public class WeatherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
+        Button back=(Button)findViewById(R.id.back_to_com_from_weather);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(WeatherActivity.this,CompletePage.class);
+                startActivity(intent);
+            }
+        });
     }
 }

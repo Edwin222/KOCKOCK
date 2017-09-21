@@ -14,5 +14,9 @@
         android:id="@+id/menuitem3"
         android:title="weather" >
     </item>
+    <item
+        android:id="@+id/menuitem4"
+        android:title="go to my list" >
+    </item>
 
 </menu>
