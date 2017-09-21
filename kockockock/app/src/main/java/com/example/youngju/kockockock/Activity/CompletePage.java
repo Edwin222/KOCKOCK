@@ -16,14 +16,10 @@ import android.widget.Toast;
 
 import com.example.youngju.kockockock.CustomMarker.MapControl;
 import com.example.youngju.kockockock.R;
-
+import com.example.youngju.kockockock.System.DataContainer.PathManager;
 import com.example.youngju.kockockock.System.DataUnit.Path;
 import com.example.youngju.kockockock.System.DataUnit.Region;
-import com.example.youngju.kockockock.System.DataContainer.PathManager;
 import com.example.youngju.kockockock.System.DataUnit.TravelInfo;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -50,6 +46,10 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
 
         path=(Path)intent.getSerializableExtra("Path");
         travelInfo=path.getTravelInfo();
+        path.getList().setRegionSequence();
+
+        for(Region r: path.getList())
+            Log.d("test","CompletePage: region:"+r.getName());
 
         ImageButton prev=(ImageButton)findViewById(R.id.prev_to_map);
         prev.setOnClickListener(new View.OnClickListener() {

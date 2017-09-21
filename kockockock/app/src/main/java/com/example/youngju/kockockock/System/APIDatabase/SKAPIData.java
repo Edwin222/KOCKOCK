@@ -31,7 +31,7 @@ public class SKAPIData {
     }
 
     public int getTotalDistance(String startX, String startY, String endX, String endY){
-        doc = getXMLData("tmap/route", "requCoordType=WGS84GEO", "endX="+endX, "endY="+endY, "startX="+startX, "startY"+startY, "resCoordType=WGS84GEO");
+        doc = getXMLData("tmap/route", "endX="+endX, "endY="+endY, "startX="+startX, "startY"+startY, "reqCoordType=WGS84GEO");
 
         return Integer.parseInt(doc.getElementsByTag("tmap:totalDistance").get(0).text());
     }

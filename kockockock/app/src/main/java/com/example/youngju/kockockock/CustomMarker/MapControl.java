@@ -50,6 +50,8 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
 
     public RegionContainer getSelectedRegion(){
         RegionContainer regionContainer1 = new RegionContainer();
+        selectedRegion.get(0).setChoice(Region.C_BEGINPOINT);
+        selectedRegion.get(selectedRegion.size()-1).setChoice(Region.C_ENDPOINT);
         for (Region r: selectedRegion){
             Log.d("test","MapControl getSelectedRegion : region -> " + r.getName());
             regionContainer1.add(r);
