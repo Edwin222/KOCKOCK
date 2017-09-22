@@ -7,20 +7,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.youngju.kockockock.CustomMarker.MapControl;
 import com.example.youngju.kockockock.R;
-
+import com.example.youngju.kockockock.System.DataContainer.PathManager;
 import com.example.youngju.kockockock.System.DataUnit.Path;
 import com.example.youngju.kockockock.System.DataUnit.Region;
-import com.example.youngju.kockockock.System.DataContainer.PathManager;
 import com.example.youngju.kockockock.System.DataUnit.TravelInfo;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Marker;
-
 
 public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
@@ -37,6 +35,8 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         intent = getIntent();
+        Log.d("test","MapActivity : intent: "+intent);
+
         pathManager = PathManager.getInstance();
 
         path = (Path) intent.getSerializableExtra("Path");
@@ -58,10 +58,14 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
         creat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(MapActivity.this, CompletePage.class);
-                path.setList(mapControl.getSelectedRegion());
-                in.putExtra("Path", path);
-                startActivity(in);
+                try{
+                    Intent in = new Intent(MapActivity.this, CompletePage.class);
+                    path.setList(mapControl.getSelectedRegion());
+                    in.putExtra("Path", path);
+                    startActivity(in);
+                } catch(Exception e) {
+                    Toast.makeText(getApplicationContext(),"choose region",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -107,19 +111,23 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
     }
 
 
-
-
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
         mapControl=new MapControl(this,mMap,travelInfo,Region.T_ATTRACTION);
+        try{
+            mapControl.setSelectedRegion(path.getList());
+            Log.d("test","MapActivity : alreadySelected exists");
+        }catch(Exception e) {
+            Log.d("test","MapActivity : alreadySelected doesn't exists");
+        }
+
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
         return mapControl.onMarkerClick(marker);
     }
-
 
 }
 

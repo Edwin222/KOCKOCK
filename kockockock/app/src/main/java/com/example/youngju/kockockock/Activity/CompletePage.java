@@ -59,6 +59,7 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
             public void onClick(View view) {
                 Log.d("test","prev Button Listener");
                 Intent in=new Intent(CompletePage.this,MapActivity.class);
+                path.setList(mapControl.getSelectedRegion());
                 in.putExtra("Path",path);
                 startActivity(in);
             }

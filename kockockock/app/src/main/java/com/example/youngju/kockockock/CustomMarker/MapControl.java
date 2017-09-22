@@ -28,6 +28,7 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
     CustomMarker customMarker = null;
     Context context;
     int type;
+    double cameraX,cameraY;
 
     public MapControl(Context context, GoogleMap mMap, TravelInfo travelInfo, int type) {
         Log.d("test","mapcontrol constructor : context -> " + context);
@@ -42,8 +43,9 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
 
     public void setSelectedRegion(RegionContainer regions){
         for(Region r:regions) {
+            r.setChoice(Region.C_SELECTED);
             selectedRegion.add(r);
-            Log.d("test","MapControl setSelectedRegion : region -> " + r.getName());
+            Log.d("test","MapControl setSelectedRegion : add region -> " + r.getName());
         }
         setMaker(type);
     }
@@ -98,26 +100,49 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
         } else
             Log.d("test","mapcontrol setMarker : selectedRegion(ArrayList<Resion>) is null");
 
+        setCamera();
 
-        try {
-            double x = Double.parseDouble(regionContainer.get(0).getLatitude());
-            double y = Double.parseDouble(regionContainer.get(0).getLongitude());
-            Log.d("test", "x: " + x + " y: " + y);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(x, y)));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
-        } catch (Exception e) {
-            Log.d("test", "Mapcontrol Exception : regionContainer size is 0");
-            try{
-                double x = Double.parseDouble(selectedRegion.get(0).getLatitude());
-                double y = Double.parseDouble(selectedRegion.get(0).getLongitude());
-                Log.d("test", "x: " + x + " y: " + y);
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(x, y)));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
-            }catch (Exception ee) {
-                Log.d("test", "Mapcontrol Exception : selectedRegion size is 0");}
-        }
     }
 
+    public void setCamera(){
+        cameraX=0;
+        cameraY=0;
+
+        RegionContainer totalregion=new RegionContainer();
+
+        try {
+            for (Region r : regionContainer) {
+                totalregion.add(r);
+            }
+        }catch(Exception e ) {}
+
+        try {
+            for (Region r : selectedRegion) {
+                totalregion.add(r);
+            }
+        }catch(Exception e ) {}
+
+        try{
+            for (Region r: totalregion) {
+                cameraX+=Double.parseDouble(r.getLatitude());
+                cameraY+=Double.parseDouble(r.getLongitude());
+                Log.d("test", "setCamera: add -> x: " + Double.parseDouble(r.getLatitude()) + " y: " + Double.parseDouble(r.getLongitude()));
+            }
+            double sz=totalregion.size();
+            Log.d("test","setCamera: total size->" + sz);
+            cameraX=cameraX/sz;
+            cameraY=cameraY/sz;
+        }catch (Exception e) {}
+
+        if(cameraX==0 && cameraY==0 ) {
+            cameraX=38.0;
+            cameraY=127.0;
+        }
+
+        Log.d("test", "setCamera: final point -> x: " + cameraX + " y: " + cameraY);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(cameraX, cameraY)));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
+    }
 
     public void onMapReady(GoogleMap map) {
         Log.d("test","mapcontrol onMapReady ");

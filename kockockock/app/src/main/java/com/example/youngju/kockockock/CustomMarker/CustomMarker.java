@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,10 +65,13 @@ public class CustomMarker {
         LatLng newRegion = new LatLng(x, y);
         String formatted = region.getName();
 
+        if(formatted.length() > 6) tv_marker.setPadding(0,0,0,0);
+        else Log.d("test","CustomMarker : name -> " +formatted+ " " +formatted.length());
+
         tv_marker.setText(formatted);
 
         if (region.getChosenStatus() == Region.C_SELECTED) {
-            tv_marker.setBackgroundResource(R.drawable.unclicked);
+            tv_marker.setBackgroundResource(R.drawable.colorbackground);
             tv_marker.setTextColor(Color.BLACK);
         } else if (region.getChosenStatus() == Region.C_NOTSELECTED){
             tv_marker.setBackgroundResource(R.drawable.unclicked);

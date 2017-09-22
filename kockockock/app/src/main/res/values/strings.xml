@@ -11,4 +11,5 @@
     </string-array>
 
     <string name="action_settings">편집</string>
+    <string name="title_activity_draw_line">Map</string>
 </resources>
