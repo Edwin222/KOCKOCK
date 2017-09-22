@@ -5,10 +5,11 @@
 
     <TextView
         android:id="@+id/tv_marker"
-        android:layout_width="47dp"
-        android:layout_height="22dp"
-        android:background="@drawable/uncolorbackground"
-        android:gravity="center"
+        android:layout_width="74dp"
+        android:layout_height="36dp"
+        android:background="@drawable/unclicked"
+        android:gravity="top|center_horizontal"
+        android:paddingTop="6dp"
         android:text="title"
         android:textSize="12dp" />
 </FrameLayout>

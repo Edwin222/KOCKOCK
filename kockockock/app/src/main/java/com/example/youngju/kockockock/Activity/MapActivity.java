@@ -60,8 +60,6 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
             public void onClick(View view) {
                 Intent in = new Intent(MapActivity.this, CompletePage.class);
                 path.setList(mapControl.getSelectedRegion());
-                for(Region r: path.getList())
-                    Log.d("test","mapActivity: region:"+r.getName());
                 in.putExtra("Path", path);
                 startActivity(in);
             }
@@ -117,11 +115,11 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
         mapControl=new MapControl(this,mMap,travelInfo,Region.T_ATTRACTION);
     }
 
-
     @Override
     public boolean onMarkerClick(Marker marker) {
         return mapControl.onMarkerClick(marker);
     }
+
 
 }
 

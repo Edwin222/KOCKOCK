@@ -60,6 +60,10 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
         return regionContainer1;
     }
 
+    public void drawLine() {
+
+    }
+
     public void clearMarker() {
         if (markerArrayList == null) return;
         for (Marker m : markerArrayList) {
@@ -154,5 +158,6 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
 
         return false;
     }
+
 
 }

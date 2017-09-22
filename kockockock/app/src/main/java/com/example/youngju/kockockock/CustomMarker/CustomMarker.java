@@ -67,10 +67,10 @@ public class CustomMarker {
         tv_marker.setText(formatted);
 
         if (region.getChosenStatus() == Region.C_SELECTED) {
-            tv_marker.setBackgroundResource(R.drawable.colorbackground);
+            tv_marker.setBackgroundResource(R.drawable.unclicked);
             tv_marker.setTextColor(Color.BLACK);
         } else if (region.getChosenStatus() == Region.C_NOTSELECTED){
-            tv_marker.setBackgroundResource(R.drawable.uncolorbackground);
+            tv_marker.setBackgroundResource(R.drawable.unclicked);
             tv_marker.setTextColor(Color.BLACK);
         }
 
