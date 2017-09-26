@@ -46,7 +46,6 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
 
         path=(Path)intent.getSerializableExtra("Path");
         travelInfo=path.getTravelInfo();
-
 /*
         path.getList().setRegionSequence();
         for(Region r: path.getList())
