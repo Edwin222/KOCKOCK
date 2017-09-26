@@ -43,7 +43,6 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
 
     public void setSelectedRegion(RegionContainer regions){
         for(Region r:regions) {
-            r.setChoice(Region.C_SELECTED);
             selectedRegion.add(r);
             Log.d("test","MapControl setSelectedRegion : add region -> " + r.getName());
         }
@@ -164,6 +163,14 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
             Log.d("test","selected region:" +  region.getName() );
             regionContainer.remove(region);
         } else if (region.getChosenStatus() == Region.C_SELECTED) {
+            selectedRegion.remove(region);
+            region.setChoice(Region.C_BEGINPOINT);
+            selectedRegion.add(region);
+        } else if(region.getChosenStatus()==Region.C_BEGINPOINT){
+            selectedRegion.remove(region);
+            region.setChoice(Region.C_ENDPOINT);
+            selectedRegion.add(region);
+        } else if(region.getChosenStatus()==Region.C_ENDPOINT){
             region.setChoice(Region.C_NOTSELECTED);
             selectedRegion.remove(region);
             Log.d("test","unselected region:" +  region.getName() );

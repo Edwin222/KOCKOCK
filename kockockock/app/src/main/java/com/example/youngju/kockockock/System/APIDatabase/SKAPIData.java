@@ -43,7 +43,7 @@ public class SKAPIData {
         String result="";
 
         try {
-            result = obj.getJSONObject("features").getJSONObject("properties").getJSONObject("totalDistance").toString();
+            result = obj.getJSONArray("features").getJSONObject(0).getJSONObject("properties").getString("totalDistance");
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -114,27 +114,6 @@ public class SKAPIData {
         }
 
         return result;
-    }
-
-    private synchronized Document getXMLData(String serviceName,  String... parameters){
-
-        //Make real URL from parameters
-        String connectionURL =  "https://apis.skplanetx.com/" + serviceName + "?version=1&appKey=" + getAPIKey();
-        for(String s : parameters) {
-            connectionURL += "&" + s;
-        }
-
-        Document doc = new Document(""); //initialize
-
-        try {
-            //get XML file from URL
-            doc = Jsoup.connect(connectionURL).parser(Parser.xmlParser()).get();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return doc;
     }
 
     private String getAPIKey(){
