@@ -4,10 +4,16 @@ import com.example.youngju.kockockock.System.DataUnit.WeatherInfo;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URL;
 
 /**
  * Created by Edwin on 2017-09-09.
@@ -17,7 +23,7 @@ import java.io.IOException;
 
 public class SKAPIData {
 
-    private Document doc;
+    private JSONObject doc;
 
     private SKAPIData(){
     }
@@ -32,11 +38,10 @@ public class SKAPIData {
 
     public int getTotalDistance(String startX, String startY, String endX, String endY){
 
-        doc = getJsonData("tmap/routes", "endX="+endX, "endY="+endY, "reqCoordType=WGS84GEO", "startX="+startX, "startY="+startY);
+        JSONObject obj = getJsonData("tmap/routes", "endX="+endX, "endY="+endY, "reqCoordType=WGS84GEO", "startX="+startX, "startY="+startY);
         String result="";
 
         try {
-            JSONObject obj = new JSONObject(doc.text());
             result = obj.getJSONObject("kml").getJSONObject("Document").getString("tmap:totalDistance");
         } catch (Exception e){
             e.printStackTrace();
@@ -47,13 +52,11 @@ public class SKAPIData {
 
     public WeatherInfo[] getWeeklyWeather(String lat, String lon){
         WeatherInfo[] result = new WeatherInfo[7];
-        JSONObject obj;
 
         //1~2 Day weather
-        doc = getJsonData("weather/forecast/3days", "lat="+lat, "lon="+lon);
+        JSONObject obj = getJsonData("weather/forecast/3days", "lat="+lat, "lon="+lon);
 
         try {
-            obj = new JSONObject(doc.text());
             JSONObject skyObject = obj.getJSONObject("weather").getJSONObject("forecast3days").getJSONObject("fcst3hour").getJSONObject("sky");
             JSONArray tempArray = obj.getJSONObject("weather").getJSONObject("forecast3days").getJSONObject("fcstdaily").getJSONArray("temperature");
 
@@ -66,10 +69,9 @@ public class SKAPIData {
         }
 
         //3~7 Day Weather
-        doc = getJsonData("weather/forecast/6days", "lat="+lat, "lon="+lon);
+        obj = getJsonData("weather/forecast/6days", "lat="+lat, "lon="+lon);
 
         try {
-            obj = new JSONObject(doc.text());
             JSONObject skyObject = obj.getJSONObject("weather").getJSONObject("forecast6days").getJSONObject("sky");
             JSONObject tempObject = obj.getJSONObject("weather").getJSONObject("forecast6days").getJSONObject("temperature");
 
@@ -85,22 +87,32 @@ public class SKAPIData {
         return result;
     }
 
-    public synchronized Document getJsonData(String serviceName, String... parameters){
+    public synchronized JSONObject getJsonData(String serviceName, String... parameters){
         //Make real URL from parameters
         String connectionURL = "https://apis.skplanetx.com/" + serviceName + "?version=1&appKey=" + getAPIKey();
         for(String s : parameters){
             connectionURL += "&" + s;
         }
 
-        Document doc = new Document(""); //initialize
+        JSONObject result = null;
 
         try {
-            doc = Jsoup.connect(connectionURL).get();
-        } catch(IOException e){
+            URL url = new URL(connectionURL);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream()));
+
+            String jsonContent = "";
+            String cat = null;
+            while( (cat = reader.readLine()) != null){
+                jsonContent += cat;
+            }
+
+            result = new JSONObject(jsonContent);
+
+        } catch(Exception e){
             e.printStackTrace();
         }
 
-        return doc;
+        return result;
     }
 
     private synchronized Document getXMLData(String serviceName,  String... parameters){
