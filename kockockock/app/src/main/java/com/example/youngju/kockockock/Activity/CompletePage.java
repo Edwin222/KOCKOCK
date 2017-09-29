@@ -47,11 +47,11 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
         path=(Path)intent.getSerializableExtra("Path");
         travelInfo=path.getTravelInfo();
 
-/*
+
         path.getList().setRegionSequence();
         for(Region r: path.getList())
             Log.d("test","CompletePage: region:"+r.getName());
-*/
+
 
         ImageButton prev=(ImageButton)findViewById(R.id.prev_to_map);
         prev.setOnClickListener(new View.OnClickListener() {

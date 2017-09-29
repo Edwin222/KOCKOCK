@@ -1,5 +1,7 @@
 package com.example.youngju.kockockock.System.DataContainer;
 
+import android.util.Log;
+
 import com.example.youngju.kockockock.System.APIDatabase.APIGetter;
 import com.example.youngju.kockockock.System.DataUnit.Region;
 import com.example.youngju.kockockock.System.OperationStructure.HeapElement;
@@ -23,12 +25,21 @@ public class RegionContainer extends ArrayList<Region> implements Serializable {
         ArrayList<Integer> presentPath = new ArrayList<Integer>();
         MinHeap heap = new MinHeap();
 
+        System.out.println("TESTTESTSETETSETSETSETSETETSETSETEST");
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                System.out.print(graphMatrix[i][j]+" ");
+            }
+            System.out.println();
+        }
+
         presentPath.add(0);
         heap.add(new HeapElement(getBound(graphMatrix, presentPath), presentPath));
 
         //TSP Algorithm Application
         while(!heap.isEmpty()){
             HeapElement cursor = heap.popHeap();
+            Log.d("TSPTEST", "BOUND="+cursor.getBound());
             if(cursor.getBound() >= minWeight){
                 continue;
             }
@@ -43,6 +54,7 @@ public class RegionContainer extends ArrayList<Region> implements Serializable {
                 }
 
                 int tweight = cursor.getTotalWeight(graphMatrix);
+                Log.d("TSPTEST", "tweight="+tweight);
                 if( tweight < minWeight){
                     minWeight = tweight;
                     minElement = cursor;
@@ -60,6 +72,12 @@ public class RegionContainer extends ArrayList<Region> implements Serializable {
             }
         }
 
+        System.out.println("TEXTSETSTSETESTSTESTESTESTESTESTSETESTSET");
+        for(int i=0;i< minElement.getPath().size(); i++){
+            System.out.print(minElement.getPath().get(i)+" ");
+        }
+        System.out.println();
+
         refeshSequence(minElement.getPath());
     }
 
@@ -71,7 +89,7 @@ public class RegionContainer extends ArrayList<Region> implements Serializable {
             newSequence.add( this.get( path.get(i) ));
         }
 
-        this.removeAll(null);
+        this.clear();
         for(Region r : newSequence){
             this.add(r);
         }
