@@ -6,7 +6,6 @@ import com.example.youngju.kockockock.System.DataUnit.WeatherInfo;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
@@ -14,7 +13,6 @@ import org.jsoup.parser.Parser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.net.URL;
 
 /**
@@ -40,6 +38,7 @@ public class SKAPIData {
 
     public int getTotalDistance(String startX, String startY, String endX, String endY){
 
+        Log.d("SKP", ""+startX+","+startY+"//"+endX+","+endY);
         JSONObject obj = getJsonData("tmap/routes", "endX="+endX, "endY="+endY, "reqCoordType=WGS84GEO", "startX="+startX, "startY="+startY);
         String result="";
 
