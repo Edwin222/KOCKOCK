@@ -1,5 +1,7 @@
 package com.example.youngju.kockockock.System.APIDatabase;
 
+import com.example.youngju.kockockock.System.DataUnit.TravelInfo;
+
 import java.util.ArrayList;
 
 /**
@@ -17,6 +19,7 @@ public class APIGetter extends Thread {
     public final static int TOURAPI_METRO = 8;
     public final static int TOURAPI_CITY =9;
     public final static int SKPAPI_WEATHER = 10;
+    public final static int NAVER_REGIONSEARCH = 11;
 
     private int mode_dataType;
     private Object result;
@@ -73,6 +76,9 @@ public class APIGetter extends Thread {
                 break;
             case SKPAPI_WEATHER:
                 result = SKAPIData.getInstance().getWeeklyWeather( (String) parameter.get(0), (String) parameter.get(1) );
+                break;
+            case NAVER_REGIONSEARCH:
+                result = NaverSearchAPI.getInstance().getRegionBySearch( (TravelInfo) parameter.get(0) );
                 break;
         }
     }

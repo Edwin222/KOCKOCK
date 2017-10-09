@@ -25,7 +25,6 @@ public class RegionContainer extends ArrayList<Region> implements Serializable {
         ArrayList<Integer> presentPath = new ArrayList<Integer>();
         MinHeap heap = new MinHeap();
 
-        System.out.println("TESTTESTSETETSETSETSETSETETSETSETEST");
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 System.out.print(graphMatrix[i][j]+" ");
@@ -72,7 +71,6 @@ public class RegionContainer extends ArrayList<Region> implements Serializable {
             }
         }
 
-        System.out.println("TEXTSETSTSETESTSTESTESTESTESTESTSETESTSET");
         for(int i=0;i< minElement.getPath().size(); i++){
             System.out.print(minElement.getPath().get(i)+" ");
         }

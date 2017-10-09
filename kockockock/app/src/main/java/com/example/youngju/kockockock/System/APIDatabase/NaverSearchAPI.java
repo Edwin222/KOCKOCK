@@ -30,7 +30,7 @@ public class NaverSearchAPI {
         public static NaverSearchAPI INSTANCE = new NaverSearchAPI();
     }
 
-    public NaverSearchAPI getInstance(){
+    public static NaverSearchAPI getInstance(){
         return LazyIdiom.INSTANCE;
     }
 
@@ -127,7 +127,7 @@ public class NaverSearchAPI {
         return makeRegionList(query, "관광 정보 센터", num);
     }
 
-    public ArrayList<Region> getRegionBySearch_nonMetro(TravelInfo info){
+    public ArrayList<Region> getRegionBySearch(TravelInfo info){
         final int NUM_STATION = 2;
         final int NUM_ATTRACTION = 1;
         final int NUM_FOOD = 3;
@@ -135,28 +135,21 @@ public class NaverSearchAPI {
         final int NUM_CONVEN = 2;
         final int NUM_INFOCENTER = 1;
 
-        String query = info.getMetro().getName() + info.getCity().getName();
+        String query = info.getMetro().getName() + " " + info.getCity().getName();
         ArrayList<Region> result = new ArrayList<Region>();
 
+        result.addAll(getStation(query, NUM_STATION));
+        result.addAll(getSubway(query, NUM_STATION));
+        result.addAll(getTerminal(query, NUM_STATION));
+        result.addAll(getAttraction(query, NUM_ATTRACTION));
+        result.addAll(getFood(query, NUM_FOOD));
+        result.addAll(getToilet(query, NUM_TOILET));
+        result.addAll(getCStore(query, NUM_CONVEN));
+        result.addAll(getInfoCenter(query, NUM_INFOCENTER));
 
         return result;
     }
 
-    public ArrayList<Region> getRegionBySearch_Metro(TravelInfo info){
-        final int NUM_STATION = 2;
-        final int NUM_ATTRACTION = 1;
-        final int NUM_FOOD = 3;
-        final int NUM_TOILET = 1;
-        final int NUM_CONVEN = 2;
-        final int NUM_INFOCENTER = 1;
-
-        String query = info.getMetro().getName();
-
-        ArrayList<Region> result = new ArrayList<Region>();
-
-
-        return result;
-    }
 
     private boolean isMetropolis(String name){
         if(name.equals("대구")){
@@ -184,7 +177,7 @@ public class NaverSearchAPI {
         return false;
     }
 
-    public Document getXMLData(String keyword){
+    private Document getXMLData(String keyword){
         String connectionURL = "https://openapi.naver.com/v1/search/local.xml?query=";
 
         try {
