@@ -2,10 +2,15 @@ package com.example.youngju.kockockock.System.APIDatabase;
 
 import com.example.youngju.kockockock.System.DataUnit.Region;
 import com.example.youngju.kockockock.System.DataUnit.TravelInfo;
+import com.example.youngju.kockockock.System.OperationStructure.GeoTrans;
+import com.example.youngju.kockockock.System.OperationStructure.GeoTransPoint;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -28,17 +33,98 @@ public class NaverSearchAPI {
     public NaverSearchAPI getInstance(){
         return LazyIdiom.INSTANCE;
     }
-/*
-    private ArrayList<Region>
 
-    public ArrayList<Region> getSubway(String query){
+    private LatLng getLatLng(int mapx, int mapy) {
+        GeoTransPoint temp = new GeoTransPoint(mapx, mapy);
+        temp = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO, temp);
+        Double lat = temp.getY() * 1E6;
+        Double lng = temp.getX() * 1E6;
+        LatLng result = new LatLng(lat, lng);
+
+        return result;
     }
 
-    public ArrayList<Region> getStation(String query){
+    private ArrayList<Region> makeRegionList(String query, String content, int num){
+        ArrayList<Region> result = new ArrayList<Region>();
+
+        doc = getXMLData(query);
+        Elements list = doc.getElementsByTag("item");
+
+        for(int i=0;i<num;i++){
+            Element cursor = list.get(0);
+            String name;
+            int mapx, mapy;
+
+            name = cursor.getElementsByTag("title").text();
+            mapx = Integer.parseInt(cursor.getElementsByTag("mapx").text());
+            mapy = Integer.parseInt(cursor.getElementsByTag("mapy").text());
+
+            LatLng geoPoint = getLatLng(mapx, mapy);
+
+            Region newRegion = new Region("", name, Region.T_STATION, String.valueOf(geoPoint.latitude), String.valueOf(geoPoint.longitude));
+            newRegion.setContent(content);
+            result.add(newRegion);
+        }
+
+        return result;
     }
 
-    public ArrayList<Region> getTerminal(String query){
+    private ArrayList<Region> makeRecRegionList(String query, String content, int num){
+        ArrayList<Region> result = makeRegionList(query, content, num);
 
+        for(Region r : result){
+            r.setRec(true);
+        }
+
+        return result;
+    }
+
+    private ArrayList<Region> getSubway(String query, int num){
+        query += " 지하철역";
+
+        return makeRegionList(query, "지하철역", num);
+    }
+
+    private ArrayList<Region> getStation(String query, int num){
+        query += " 기차역";
+
+        return makeRegionList(query, "기차역", num);
+    }
+
+    private ArrayList<Region> getTerminal(String query, int num){
+        query += " 정류장";
+
+        return makeRegionList(query, "정류장", num);
+    }
+
+    private ArrayList<Region> getAttraction(String query, int num){
+        query += " 여행지";
+
+        return makeRecRegionList(query, "추천 여행지", num);
+    }
+
+    private ArrayList<Region> getFood(String query, int num){
+        query += " 맛집";
+
+        return makeRecRegionList(query, "추천 맛집", num);
+    }
+
+    private ArrayList<Region> getToilet(String query, int num){
+        query += " 공중화장실";
+
+        return makeRegionList(query, "공중 화장실", num);
+    }
+
+    private ArrayList<Region> getCStore(String query, int num){
+        query += " 편의점";
+
+        return makeRegionList(query, "편의점", num);
+    }
+
+    private ArrayList<Region> getInfoCenter(String query, int num){
+        query += " 관광정보센터";
+
+        return makeRegionList(query, "관광 정보 센터", num);
     }
 
     public ArrayList<Region> getRegionBySearch_nonMetro(TravelInfo info){
@@ -97,7 +183,7 @@ public class NaverSearchAPI {
 
         return false;
     }
-*/
+
     public Document getXMLData(String keyword){
         String connectionURL = "https://openapi.naver.com/v1/search/local.xml?query=";
 

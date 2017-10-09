@@ -41,6 +41,14 @@ public class Region implements Serializable {
         this.longitude = longitude;
     }
 
+    public void setContent(String c){
+        this.content = c;
+    }
+
+    public void setRec(boolean b){
+        this.rec = b;
+    }
+
     public String getContent(){
         if(content == null){
             APIGetter apiGetter = new APIGetter(APIGetter.TOURAPI_OVERVIEW);
