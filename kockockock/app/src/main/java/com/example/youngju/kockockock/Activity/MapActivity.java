@@ -62,6 +62,7 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
                     Intent in = new Intent(MapActivity.this, CompletePage.class);
                     path.setList(mapControl.getSelectedRegion());
                     in.putExtra("Path", path);
+
                     startActivity(in);
                 } catch(Exception e) {
                     Toast.makeText(getApplicationContext(),"choose region",Toast.LENGTH_SHORT).show();
