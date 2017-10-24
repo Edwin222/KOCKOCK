@@ -19,6 +19,10 @@ public class RegionContainer extends ArrayList<Region> implements Serializable {
 
     public void setRegionSequence(){
         int n = this.size();
+        if(n <= 2){
+            return;
+        }
+
         int minWeight = Integer.MAX_VALUE;
         HeapElement minElement = null;
         int[][] graphMatrix = initalizeMatrix();

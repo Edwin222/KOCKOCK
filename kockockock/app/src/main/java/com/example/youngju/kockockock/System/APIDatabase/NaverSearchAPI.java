@@ -34,24 +34,24 @@ public class NaverSearchAPI {
         return LazyIdiom.INSTANCE;
     }
 
-    private LatLng getLatLng(int mapx, int mapy) {
+    private PositionData getLatLng(int mapx, int mapy) {
         GeoTransPoint temp = new GeoTransPoint(mapx, mapy);
         temp = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO, temp);
-        Double lat = temp.getY() * 1E6;
-        Double lng = temp.getX() * 1E6;
-        LatLng result = new LatLng(lat, lng);
+        Double lat = temp.getY(); //* 1E6;
+        Double lng = temp.getX(); //* 1E6;
+        PositionData result = new PositionData(String.valueOf(lat), String.valueOf(lng));
 
         return result;
     }
 
-    private ArrayList<Region> makeRegionList(String query, String content, int num){
+    private ArrayList<Region> makeRegionList(String query, String content, int num, int type){
         ArrayList<Region> result = new ArrayList<Region>();
 
         doc = getXMLData(query);
         Elements list = doc.getElementsByTag("item");
 
         for(int i=0;i<num;i++){
-            Element cursor = list.get(0);
+            Element cursor = list.get(i);
             String name;
             int mapx, mapy;
 
@@ -59,18 +59,22 @@ public class NaverSearchAPI {
             mapx = Integer.parseInt(cursor.getElementsByTag("mapx").text());
             mapy = Integer.parseInt(cursor.getElementsByTag("mapy").text());
 
-            LatLng geoPoint = getLatLng(mapx, mapy);
+            PositionData geoPoint = getLatLng(mapx, mapy);
 
-            Region newRegion = new Region("", name, Region.T_STATION, String.valueOf(geoPoint.latitude), String.valueOf(geoPoint.longitude));
+            Region newRegion = new Region("", name, type, String.valueOf(geoPoint.lat), String.valueOf(geoPoint.lon));
             newRegion.setContent(content);
+
+            newRegion.setName(newRegion.getName().replaceAll("<b>", " "));
+            newRegion.setName(newRegion.getName().replaceAll("</b>", " "));
+
             result.add(newRegion);
         }
 
         return result;
     }
 
-    private ArrayList<Region> makeRecRegionList(String query, String content, int num){
-        ArrayList<Region> result = makeRegionList(query, content, num);
+    private ArrayList<Region> makeRecRegionList(String query, String content, int num, int type){
+        ArrayList<Region> result = makeRegionList(query, content, num, type);
 
         for(Region r : result){
             r.setRec(true);
@@ -82,49 +86,49 @@ public class NaverSearchAPI {
     private ArrayList<Region> getSubway(String query, int num){
         query += " 지하철역";
 
-        return makeRegionList(query, "지하철역", num);
+        return makeRegionList(query, "지하철역", num, Region.T_STATION);
     }
 
     private ArrayList<Region> getStation(String query, int num){
         query += " 기차역";
 
-        return makeRegionList(query, "기차역", num);
+        return makeRegionList(query, "기차역", num, Region.T_STATION);
     }
 
     private ArrayList<Region> getTerminal(String query, int num){
         query += " 정류장";
 
-        return makeRegionList(query, "정류장", num);
+        return makeRegionList(query, "정류장", num, Region.T_STATION);
     }
 
     private ArrayList<Region> getAttraction(String query, int num){
         query += " 여행지";
 
-        return makeRecRegionList(query, "추천 여행지", num);
+        return makeRecRegionList(query, "추천 여행지", num, Region.T_ATTRACTION);
     }
 
     private ArrayList<Region> getFood(String query, int num){
         query += " 맛집";
 
-        return makeRecRegionList(query, "추천 맛집", num);
+        return makeRecRegionList(query, "추천 맛집", num, Region.T_RESTAURANT);
     }
 
     private ArrayList<Region> getToilet(String query, int num){
         query += " 공중화장실";
 
-        return makeRegionList(query, "공중 화장실", num);
+        return makeRegionList(query, "공중 화장실", num, Region.T_FACILITY);
     }
 
     private ArrayList<Region> getCStore(String query, int num){
         query += " 편의점";
 
-        return makeRegionList(query, "편의점", num);
+        return makeRegionList(query, "편의점", num, Region.T_FACILITY);
     }
 
     private ArrayList<Region> getInfoCenter(String query, int num){
         query += " 관광정보센터";
 
-        return makeRegionList(query, "관광 정보 센터", num);
+        return makeRegionList(query, "관광 정보 센터", num, Region.T_FACILITY);
     }
 
     public ArrayList<Region> getRegionBySearch(TravelInfo info){
@@ -203,5 +207,15 @@ public class NaverSearchAPI {
 
     private String getClientSecret(){
         return "vMxtwOSODJ";
+    }
+}
+
+class PositionData{
+    String lat;
+    String lon;
+
+    public PositionData(String a, String o){
+        lat = a;
+        lon = o;
     }
 }

@@ -41,6 +41,10 @@ public class Region implements Serializable {
         this.longitude = longitude;
     }
 
+    public String toString(){
+        return String.valueOf(type) + "/" + name + "/" + String.valueOf(rec) + "/" + latitude + "/" + longitude;
+    }
+
     public void setContent(String c){
         this.content = c;
     }
@@ -89,4 +93,5 @@ public class Region implements Serializable {
 
     public void setChoice(int choice){ this.choice=choice; }
 
+    public void setName(String name){ this.name = name; }
 }
