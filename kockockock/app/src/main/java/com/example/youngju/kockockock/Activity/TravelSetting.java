@@ -67,8 +67,8 @@ public class TravelSetting extends AppCompatActivity {
         subCitySpinner = (Spinner) findViewById(R.id.SubCitySpinner);
         subCitySpinner.setOnItemSelectedListener(subListener);
 
-        //intent = new Intent(TravelSetting.this, WeatherActivity.class);
-        intent = new Intent(TravelSetting.this, MapActivity.class);
+        intent = new Intent(TravelSetting.this, WeatherActivity.class);
+        //intent = new Intent(TravelSetting.this, MapActivity.class);
 
         cal = (CalendarView) findViewById(R.id.calendar);
 
