@@ -3,6 +3,7 @@ package com.example.youngju.kockockock.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -41,6 +42,7 @@ public class WeatherActivity extends AppCompatActivity {
             }
         });
 
+
         intent=getIntent();
         path=(Path)intent.getSerializableExtra("Path");
         travelInfo = path.getTravelInfo();
@@ -58,7 +60,9 @@ public class WeatherActivity extends AppCompatActivity {
         }
 
         WeatherInfo weatherinfo_Array[] = (WeatherInfo[]) apiGetter.getResult();
-
+        for( WeatherInfo w : weatherinfo_Array){
+            Log.d("WEATHERACTIVITY", w.toString());
+        }
 
         //각 weather code를 upperCase해서 넣기
         //이미지 이름이 소문자로 밖에 안되므로

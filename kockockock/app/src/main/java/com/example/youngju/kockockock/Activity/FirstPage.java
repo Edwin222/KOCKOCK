@@ -42,6 +42,7 @@ public class FirstPage extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(FirstPage.this, TravelSetting.class);
                 startActivity(intent);
                 finish();

@@ -32,4 +32,10 @@ public class WeatherInfo {
     public String getSky(){
         return sky;
     }
+
+    @Override
+    public String toString(){
+        return getSky() + "/" + getSkyCode() + "/" + getMaxT() + "/" + getMinT();
+    }
+
 }
