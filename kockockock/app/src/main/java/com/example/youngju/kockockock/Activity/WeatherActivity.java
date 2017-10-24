@@ -48,8 +48,8 @@ public class WeatherActivity extends AppCompatActivity {
         travelInfo = path.getTravelInfo();
 
         APIGetter apiGetter = new APIGetter(APIGetter.SKPAPI_WEATHER);
-        String latitude = "126.755";    //나중에 이것도 받아와야 함 지금은 임시로
-        String longitude = "37.4435";   //이것두
+        String latitude = path.getList().get(0).getLatitude();    //나중에 이것도 받아와야 함 지금은 임시로
+        String longitude = path.getList().get(0).getLongitude();   //이것두
         apiGetter.addParam(latitude, longitude);
 
         try {

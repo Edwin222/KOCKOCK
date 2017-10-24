@@ -15,8 +15,10 @@ import com.example.youngju.kockockock.R;
 import com.example.youngju.kockockock.System.APIDatabase.APIGetter;
 import com.example.youngju.kockockock.System.DataContainer.CityList;
 import com.example.youngju.kockockock.System.DataUnit.Path;
+import com.example.youngju.kockockock.System.DataUnit.Region;
 import com.example.youngju.kockockock.System.DataUnit.TravelInfo;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
