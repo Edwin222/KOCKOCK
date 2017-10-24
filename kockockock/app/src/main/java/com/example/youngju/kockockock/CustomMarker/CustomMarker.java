@@ -20,11 +20,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.Serializable;
+
 /**
  * Created by YoungJu on 2017-09-22.
  */
 
-public class CustomMarker {
+public class CustomMarker implements Serializable{
     GoogleMap mMap;
     View marker_root_view;
     TextView tv_marker;
@@ -58,7 +60,7 @@ public class CustomMarker {
         tv_marker = (TextView) marker_root_view.findViewById(R.id.tv_marker);
     }
 
-    public Marker addMarker(Region region ) {
+    public Marker addMarker(Region region) {
 
         double x = Double.parseDouble(region.getLatitude()) + 0  ;
         double y = Double.parseDouble(region.getLongitude()) + 0  ;

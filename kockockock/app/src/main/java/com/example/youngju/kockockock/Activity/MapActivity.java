@@ -58,14 +58,16 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
         creat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
-                    Intent in = new Intent(MapActivity.this, CompletePage.class);
-                    path.setList(mapControl.getSelectedRegion());
-                    in.putExtra("Path", path);
-                    startActivity(in);
-                } catch(Exception e) {
-                    Toast.makeText(getApplicationContext(),"choose region",Toast.LENGTH_SHORT).show();
-                }
+                if(mapControl.getBeg()!=null && mapControl.getEnd()!=null) {
+                    try {
+                        Intent in = new Intent(MapActivity.this, CompletePage.class);
+                        path.setList(mapControl.storeSelectedRegion());
+                        in.putExtra("Path", path);
+                        startActivity(in);
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "choose region", Toast.LENGTH_SHORT).show();
+                    }
+                } else  Toast.makeText(getApplicationContext(), "목적지와 출발지를 선택하세요!", Toast.LENGTH_SHORT).show();
             }
         });
 
