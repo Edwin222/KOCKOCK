@@ -68,6 +68,7 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
                         Toast.makeText(getApplicationContext(), "choose region", Toast.LENGTH_SHORT).show();
                     }
                 } else  Toast.makeText(getApplicationContext(), "목적지와 출발지를 선택하세요!", Toast.LENGTH_SHORT).show();
+
             }
         });
 

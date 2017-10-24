@@ -1,0 +1,20 @@
+setRegionSequence() 함수 핫픽스
+
+* setRegionSequence() 함수 말미에서 refreshPath() 호출 시점에서
+에러나는것을 확인함.
+
+* ArrayList<Region> 청소를 위해 removeAll(null)을 사용한 것이
+원인이었음. clear() 함수로 고친 결과 정상적으로 작동되는 것을 확인.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	modified:   kockockock/app/src/main/AndroidManifest.xml
+#	modified:   kockockock/app/src/main/java/com/example/youngju/kockockock/Activity/CompletePage.java
+#	modified:   kockockock/app/src/main/java/com/example/youngju/kockockock/System/DataContainer/RegionContainer.java
+#

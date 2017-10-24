@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.youngju.kockockock.CustomMarker.MapControl;
 import com.example.youngju.kockockock.R;
+import com.example.youngju.kockockock.System.APIDatabase.APIGetter;
 import com.example.youngju.kockockock.System.DataContainer.PathManager;
 import com.example.youngju.kockockock.System.DataUnit.Path;
 import com.example.youngju.kockockock.System.DataUnit.Region;
@@ -24,8 +25,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Marker;
+import java.util.ArrayList;
 
-public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
+public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarkerClickListener,OnMapReadyCallback {
 
     PathManager pathManager;
     Intent intent;
@@ -48,6 +50,9 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
         path = (Path) intent.getSerializableExtra("Path");
         travelInfo = path.getTravelInfo();
 
+        path.getList().setRegionSequence();
+        for(Region r: path.getList())
+            Log.d("test","CompletePage: region:"+r.getName());
 
         path.getList().setRegionSequence();
         for (Region r : path.getList())
@@ -86,6 +91,7 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
                 Log.d("test", "Button1 Listener");
                 mapControl.clearMarker();
                 mapControl.setMaker(Region.T_FACILITY);
+
             }
         });
 
@@ -137,11 +143,14 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
                         break;
                     case R.id.menuitem2:
                         //go to detailed list page
-                        Intent intent2 = new Intent(CompletePage.this, DetailedPathActivity.class);
+
+                        Intent intent2=new Intent(CompletePage.this,DetailedPathActivity.class);
+                        intent2.putExtra("Path", path);
                         startActivity(intent2);
                         break;
                     case R.id.menuitem3: // go to weather page
-                        Intent intent3 = new Intent(CompletePage.this, WeatherActivity.class);
+                        Intent intent3=new Intent(CompletePage.this,WeatherActivity.class);
+                        intent3.putExtra("Path", path);
                         startActivity(intent3);
                         break;
                     case R.id.menuitem4: // go to first page
@@ -159,7 +168,24 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
     public void onMapReady(GoogleMap map) {
         Log.d("test", "onMapReady");
         mMap = map;
-        mapControl = new MapControl(this, mMap, travelInfo, Region.T_FACILITY);
+
+        mapControl=new MapControl(this, mMap, travelInfo, Region.T_FACILITY);
+        APIGetter apiGetter = new APIGetter(APIGetter.NAVER_REGIONSEARCH);
+        apiGetter.addParam(travelInfo);
+
+        try {
+            apiGetter.start();
+            apiGetter.join();
+        } catch(InterruptedException e){
+            e.printStackTrace();
+        }
+
+        ArrayList<Region> al = (ArrayList<Region>) apiGetter.getResult();
+        for(Region r : al){
+            Log.d("NAVERREGION", r.toString());
+        }
+
+        mapControl.getRegionManager().addAll(al);
         mapControl.setSelectedRegion(path.getList());
     }
 

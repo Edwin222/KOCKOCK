@@ -15,8 +15,10 @@ import com.example.youngju.kockockock.R;
 import com.example.youngju.kockockock.System.APIDatabase.APIGetter;
 import com.example.youngju.kockockock.System.DataContainer.CityList;
 import com.example.youngju.kockockock.System.DataUnit.Path;
+import com.example.youngju.kockockock.System.DataUnit.Region;
 import com.example.youngju.kockockock.System.DataUnit.TravelInfo;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -67,8 +69,8 @@ public class TravelSetting extends AppCompatActivity {
         subCitySpinner = (Spinner) findViewById(R.id.SubCitySpinner);
         subCitySpinner.setOnItemSelectedListener(subListener);
 
-        intent = new Intent(TravelSetting.this, MapActivity.class);
-
+        intent = new Intent(TravelSetting.this, WeatherActivity.class);
+        //intent = new Intent(TravelSetting.this, MapActivity.class);
 
         cal = (CalendarView) findViewById(R.id.calendar);
 

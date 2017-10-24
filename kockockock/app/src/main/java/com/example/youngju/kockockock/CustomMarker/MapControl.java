@@ -239,5 +239,8 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
         return false;
     }
 
+    public RegionManager getRegionManager(){
+        return regionManager;
+    }
 
 }
