@@ -41,6 +41,9 @@ public class SKAPIData {
         Log.d("SKP", ""+startX+","+startY+"//"+endX+","+endY);
         JSONObject obj = getJsonData("tmap/routes", "endX="+endX, "endY="+endY, "reqCoordType=WGS84GEO", "startX="+startX, "startY="+startY);
         String result="";
+        if(obj == null){
+            return 0;
+        }
 
         try {
             result = obj.getJSONArray("features").getJSONObject(0).getJSONObject("properties").getString("totalDistance");
@@ -115,6 +118,7 @@ public class SKAPIData {
 
         } catch(Exception e){
             e.printStackTrace();
+            return null;
         }
 
         return result;
