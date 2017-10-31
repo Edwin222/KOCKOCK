@@ -25,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Marker;
+
 import java.util.ArrayList;
 
 public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarkerClickListener,OnMapReadyCallback {
@@ -187,6 +188,7 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
 
         mapControl.getRegionManager().addAll(al);
         mapControl.setSelectedRegion(path.getList());
+        mapControl.drawLine();
     }
 
 
@@ -195,5 +197,6 @@ public class CompletePage extends AppCompatActivity implements GoogleMap.OnMarke
         Log.d("test", "onMarkerClick");
         return mapControl.onMarkerClick(marker);
     }
+
 
 }

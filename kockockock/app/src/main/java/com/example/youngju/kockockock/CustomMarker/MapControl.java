@@ -1,6 +1,7 @@
 package com.example.youngju.kockockock.CustomMarker;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,6 +14,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +24,7 @@ import java.util.ArrayList;
  * Created by YoungJu on 2017-09-22.
  */
 
-public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback, Serializable{
+public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback, Serializable {
 
     private GoogleMap mMap = null;
     private RegionManager regionManager = null; // arr of whole markers
@@ -56,11 +59,11 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
     }
 
     public RegionContainer storeSelectedRegion() {
-        RegionContainer stor= new RegionContainer();
+        RegionContainer stor = new RegionContainer();
         stor.add(beg);
-        for (Region r: selectedRegion) stor.add(r);
+        for (Region r : selectedRegion) stor.add(r);
         stor.add(end);
-        return  stor;
+        return stor;
     }
 
     public Region getBeg() {
@@ -84,6 +87,28 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
     }
 
     public void drawLine() {
+        PolylineOptions rectOptions = new PolylineOptions();
+
+        double x= Double.parseDouble(beg.getLatitude());
+        double y= Double.parseDouble(beg.getLongitude());
+
+        rectOptions.add(new LatLng(x,y));
+
+        for(Region r:selectedRegion) {
+            x=Double.parseDouble(r.getLatitude());
+            y=Double.parseDouble(r.getLongitude());
+            rectOptions.add(new LatLng(x,y));
+        }
+
+
+        x= Double.parseDouble(end.getLatitude());
+        y= Double.parseDouble(end.getLongitude());
+
+        rectOptions.add(new LatLng(x,y));
+
+        rectOptions.color(Color.RED);
+
+        Polyline polyline = mMap.addPolyline(rectOptions);
 
     }
 
@@ -111,7 +136,7 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
                     checkalready.add(region);
                 }
             }
-            Log.d("test","MapControl: setMarker selectedRegion size:"+selectedRegion.size());
+            Log.d("test", "MapControl: setMarker selectedRegion size:" + selectedRegion.size());
         }
 
         if (regionContainer != null) {
@@ -123,17 +148,17 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
                     checkalready.add(region);
                 }
             }
-            Log.d("test","MapControl: setMarker regionContainer size:"+regionContainer.size());
+            Log.d("test", "MapControl: setMarker regionContainer size:" + regionContainer.size());
         }
 
-        if(beg!=null) {
+        if (beg != null) {
             Marker marker = customMarker.addMarker(beg);
             marker.setTag(beg);
             markerArrayList.add(marker);
             checkalready.add(beg);
         }
 
-        if(end!=null) {
+        if (end != null) {
             Marker marker = customMarker.addMarker(end);
             marker.setTag(end);
             markerArrayList.add(marker);
@@ -200,37 +225,37 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
         if (region.getChosenStatus() == Region.C_NOTSELECTED) {
             region.setChoice(Region.C_SELECTED);
             selectedRegion.add(region);
-            Toast.makeText(context,""+region.getName()+" 경로에 추가되었습니다.",Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "" + region.getName() + " 경로에 추가되었습니다.", Toast.LENGTH_LONG).show();
 
         } else if (region.getChosenStatus() == Region.C_SELECTED) {
             selectedRegion.remove(region);
-            Log.d("test","MapControl: beg:"+beg);
-            Log.d("test","MapControl: end:"+end);
+            Log.d("test", "MapControl: beg:" + beg);
+            Log.d("test", "MapControl: end:" + end);
             region.setChoice(Region.C_BEGINPOINT);
             selectedRegion.add(region);
-            if(beg!=null) {
+            if (beg != null) {
                 beg.setChoice(Region.C_SELECTED);
-                if(!selectedRegion.contains(beg))selectedRegion.add(beg);
+                if (!selectedRegion.contains(beg)) selectedRegion.add(beg);
             }
-            beg=region;
+            beg = region;
 
-            Toast.makeText(context,""+region.getName()+" 출발지로 지정하였습니다.",Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "" + region.getName() + " 출발지로 지정하였습니다.", Toast.LENGTH_LONG).show();
         } else if (region.getChosenStatus() == Region.C_BEGINPOINT) {
-            beg=null;
-            if(end!=null) {
+            beg = null;
+            if (end != null) {
                 end.setChoice(Region.C_SELECTED);
-                if(!selectedRegion.contains(end)) selectedRegion.add(end);
+                if (!selectedRegion.contains(end)) selectedRegion.add(end);
             }
             region.setChoice(Region.C_ENDPOINT);
-            end=region;
-            Toast.makeText(context,""+region.getName()+" 도착지로 지정하였습니다.",Toast.LENGTH_LONG).show();
+            end = region;
+            Toast.makeText(context, "" + region.getName() + " 도착지로 지정하였습니다.", Toast.LENGTH_LONG).show();
 
         } else if (region.getChosenStatus() == Region.C_ENDPOINT) {
             selectedRegion.remove(region);
             region.setChoice(Region.C_NOTSELECTED);
-            end=null;
-            if(region.getType()==type) regionContainer.add(region);
-            Toast.makeText(context,""+region.getName()+" 경로에서 삭제하였습니다.",Toast.LENGTH_LONG).show();
+            end = null;
+            if (region.getType() == type) regionContainer.add(region);
+            Toast.makeText(context, "" + region.getName() + " 경로에서 삭제하였습니다.", Toast.LENGTH_LONG).show();
         }
 
         clearMarker();
@@ -239,7 +264,7 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
         return false;
     }
 
-    public RegionManager getRegionManager(){
+    public RegionManager getRegionManager() {
         return regionManager;
     }
 
