@@ -100,6 +100,7 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
             x=Double.parseDouble(r.getLatitude());
             y=Double.parseDouble(r.getLongitude());
             rectOptions.add(new LatLng(x,y));
+            setCamera();
         }
 
 /*
