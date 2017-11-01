@@ -15,10 +15,8 @@ import com.example.youngju.kockockock.R;
 import com.example.youngju.kockockock.System.APIDatabase.APIGetter;
 import com.example.youngju.kockockock.System.DataContainer.CityList;
 import com.example.youngju.kockockock.System.DataUnit.Path;
-import com.example.youngju.kockockock.System.DataUnit.Region;
 import com.example.youngju.kockockock.System.DataUnit.TravelInfo;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -97,6 +95,7 @@ public class TravelSetting extends AppCompatActivity {
 
                 Log.d("test","TravelSettingActivity\nmetro: "+ travelInfo.getMetro().getCode()+" \ncity: "+travelInfo.getCity().getCode());
 
+                intent=new Intent(TravelSetting.this,MapActivity.class);
                 Path path=new Path("");
                 path.setTravelInfo(travelInfo);
                 intent.putExtra("Path", path);

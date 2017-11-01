@@ -1,32 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?><manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.example.youngju.kockockock">
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.youngju.kockockock">
 
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
 
-<application android:allowBackup="true" android:icon="@drawable/titleimage" android:label="@string/app_name"
-    android:roundIcon="@drawable/titleimage" android:supportsRtl="true" android:theme="@style/AppTheme">
-<!--
-   <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCFTNeUq2mVj_2M3md2sNgRuwn-oNPXlaA" />
--->
-    <!-- 박권도용 구글맵API키 -->
-    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAIp_H_ClT6Iz0yWFbaFVPX384jQQkbS-E" />
-
-    <activity
-        android:name=".Activity.FirstPage"
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/titleimage"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme.NoActionBar">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        android:roundIcon="@drawable/titleimage"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-    <activity android:name=".Activity.MapActivity" />
-    <activity android:name=".Activity.WeatherActivity" />
-    <activity android:name=".Activity.DetailedPathActivity" />
-    <activity android:name=".Activity.TravelSetting" />
-    <activity android:name=".Activity.CompletePage"></activity>
-</application>
+        <!--    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCFTNeUq2mVj_2M3md2sNgRuwn-oNPXlaA" /> -->
+        <!-- 박권도용 구글맵API키 -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAIp_H_ClT6Iz0yWFbaFVPX384jQQkbS-E" />
+
+        <activity
+            android:name=".Activity.FirstPage"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.MapActivity" />
+        <activity android:name=".Activity.WeatherActivity" />
+        <activity android:name=".Activity.DetailedPathActivity" />
+        <activity android:name=".Activity.TravelSetting" />
+        <activity android:name=".Activity.CompletePage" />
+        <activity android:name=".Activity.IntroActivity"></activity>
+    </application>
 
 </manifest>
