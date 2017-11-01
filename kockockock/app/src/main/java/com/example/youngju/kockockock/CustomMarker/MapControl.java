@@ -89,23 +89,25 @@ public class MapControl implements GoogleMap.OnMarkerClickListener, OnMapReadyCa
     public void drawLine() {
         PolylineOptions rectOptions = new PolylineOptions();
 
+        double x,y;
+/*
         double x= Double.parseDouble(beg.getLatitude());
         double y= Double.parseDouble(beg.getLongitude());
 
         rectOptions.add(new LatLng(x,y));
-
+*/
         for(Region r:selectedRegion) {
             x=Double.parseDouble(r.getLatitude());
             y=Double.parseDouble(r.getLongitude());
             rectOptions.add(new LatLng(x,y));
         }
 
-
+/*
         x= Double.parseDouble(end.getLatitude());
         y= Double.parseDouble(end.getLongitude());
 
         rectOptions.add(new LatLng(x,y));
-
+*/
         rectOptions.color(Color.RED);
 
         Polyline polyline = mMap.addPolyline(rectOptions);
