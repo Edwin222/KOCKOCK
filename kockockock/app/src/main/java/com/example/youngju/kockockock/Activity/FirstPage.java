@@ -1,11 +1,12 @@
 package com.example.youngju.kockockock.Activity;
 
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,7 +15,6 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.youngju.kockockock.R;
-import com.example.youngju.kockockock.System.APIDatabase.APIGetter;
 import com.example.youngju.kockockock.System.DataContainer.PathManager;
 
 import java.util.ArrayList;
@@ -124,4 +124,21 @@ public class FirstPage extends AppCompatActivity {
         pathManager.saveData();
         editmode = !editmode;
     }
+
+
+    //처음에 인트로
+    public boolean CheckAppFirstExecute(){
+        SharedPreferences pref = getSharedPreferences("IsFirst" , Activity.MODE_PRIVATE);
+        boolean isFirst = pref.getBoolean("isFirst", false);
+        if(!isFirst){ //if first run, go to HelpActivity
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("isFirst", true);
+            editor.commit();
+
+            Intent intent = new Intent(getApplicationContext(), IntroActivity.class);
+            startActivity(intent);
+        }
+        return !isFirst;
+    }
+
 }

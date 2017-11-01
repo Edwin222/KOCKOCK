@@ -4,4 +4,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.youngju.kockockock.Fragment.Intro3Fragment">
 
+    <Button
+        android:id="@+id/startButton"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="Start KOCKOCK" />
 </FrameLayout>
